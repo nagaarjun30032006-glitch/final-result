@@ -10,7 +10,12 @@ import os
 import bcrypt
 from datetime import datetime
 
-DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "college_portal.db")
+# Serverless Environment Detection (e.g. Vercel, AWS Lambda)
+IS_SERVERLESS = bool(os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get("LAMBDA_TASK_ROOT"))
+if IS_SERVERLESS:
+    DB_FILE = os.path.join("/tmp", "college_portal.db")
+else:
+    DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "college_portal.db")
 
 def get_connection():
     """Returns a SQLite connection with row factory enabled."""

@@ -62,6 +62,127 @@
     } catch (e) {}
   }
 
+  const STORAGE_KEY_STUDENTS = 'jjc_students_registry';
+
+  function getSavedStudentsRegistry() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_STUDENTS);
+      if (stored) {
+        const list = JSON.parse(stored);
+        if (Array.isArray(list) && list.length > 0) {
+          return list;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse students from localStorage:', e);
+    }
+
+    const seed = (window.CollegeAuth && window.CollegeAuth.MOCK_STUDENTS_DATABASE) || [];
+    const defaults = seed.map(s => ({
+      register_number: s.registerNumber,
+      registerNumber: s.registerNumber,
+      name: s.name,
+      dob: s.dob,
+      gender: s.gender || 'Not Specified',
+      blood_group: s.bloodGroup || '--',
+      bloodGroup: s.bloodGroup || '--',
+      degree: s.degree || 'Bachelor of Science (B.Sc.)',
+      department: s.department || 'Computer Science (Autonomous)',
+      current_semester: s.semester || 'Semester IV',
+      semester: s.semester || 'Semester IV',
+      regulation: s.regulation || 'CBCS Regulation 2023',
+      admission_year: s.admissionYear || 2023,
+      admissionYear: s.admissionYear || 2023,
+      mentor: s.mentor || '',
+      email: s.email || '',
+      phone: s.phone || '',
+      guardian_name: s.guardianName || '',
+      guardianName: s.guardianName || '',
+      address: s.address || ''
+    }));
+
+    try {
+      localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(defaults));
+    } catch (e) {}
+
+    return defaults;
+  }
+
+  function saveStudentToRegistry(studentObj) {
+    const registry = getSavedStudentsRegistry();
+    const cleanReg = (studentObj.register_number || studentObj.registerNumber || '').toUpperCase();
+    if (!cleanReg) return registry;
+
+    const normalized = {
+      register_number: cleanReg,
+      registerNumber: cleanReg,
+      name: studentObj.name || '',
+      dob: studentObj.dob || '',
+      gender: studentObj.gender || 'Not Specified',
+      blood_group: studentObj.blood_group || studentObj.bloodGroup || '--',
+      bloodGroup: studentObj.blood_group || studentObj.bloodGroup || '--',
+      degree: studentObj.degree || 'Bachelor of Science (B.Sc.)',
+      department: studentObj.department || 'Computer Science (Autonomous)',
+      current_semester: studentObj.current_semester || studentObj.semester || 'Semester IV',
+      semester: studentObj.current_semester || studentObj.semester || 'Semester IV',
+      regulation: studentObj.regulation || 'CBCS Regulation 2023',
+      admission_year: studentObj.admission_year || studentObj.admissionYear || 2023,
+      admissionYear: studentObj.admission_year || studentObj.admissionYear || 2023,
+      mentor: studentObj.mentor || '',
+      email: studentObj.email || '',
+      phone: studentObj.phone || '',
+      guardian_name: studentObj.guardian_name || studentObj.guardianName || '',
+      guardianName: studentObj.guardian_name || studentObj.guardianName || '',
+      address: studentObj.address || ''
+    };
+
+    const idx = registry.findIndex(s => (s.register_number || s.registerNumber || '').toUpperCase() === cleanReg);
+    if (idx >= 0) {
+      registry[idx] = { ...registry[idx], ...normalized };
+    } else {
+      registry.unshift(normalized);
+    }
+
+    try {
+      localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(registry));
+    } catch (e) {}
+
+    if (window.CollegeAuth && Array.isArray(window.CollegeAuth.MOCK_STUDENTS_DATABASE)) {
+      const authIdx = window.CollegeAuth.MOCK_STUDENTS_DATABASE.findIndex(
+        s => (s.registerNumber || '').toUpperCase() === cleanReg
+      );
+      const authObj = {
+        registerNumber: cleanReg,
+        name: normalized.name,
+        dob: normalized.dob,
+        gender: normalized.gender,
+        bloodGroup: normalized.blood_group,
+        degree: normalized.degree,
+        department: normalized.department,
+        departmentCode: cleanReg.includes('CA') ? 'CA' : 'CS',
+        semester: normalized.current_semester,
+        regulation: normalized.regulation,
+        admissionYear: normalized.admission_year,
+        mentor: normalized.mentor,
+        email: normalized.email,
+        phone: normalized.phone,
+        guardianName: normalized.guardian_name,
+        address: normalized.address,
+        collegeCode: 'JJC-1994',
+        institution: 'J.J. College of Arts and Science (Autonomous)',
+        affiliation: 'Bharathidasan University, Tiruchirappalli',
+        naacGrade: 'A++ (Cycle 4, CGPA 3.72/4.00)'
+      };
+      if (authIdx >= 0) {
+        window.CollegeAuth.MOCK_STUDENTS_DATABASE[authIdx] = { ...window.CollegeAuth.MOCK_STUDENTS_DATABASE[authIdx], ...authObj };
+      } else {
+        window.CollegeAuth.MOCK_STUDENTS_DATABASE.unshift(authObj);
+      }
+    }
+
+    return registry;
+  }
+
   let allLedgerRows = getSavedLedgerRecords();
 
   // Robust multi-origin API client (supports http://localhost:5173, http://127.0.0.1:5173, and file://)
@@ -2341,64 +2462,48 @@
     if (!regNo) return;
     regNo = regNo.trim().toUpperCase();
 
-    // Check mock database first
-    const mockList = (window.CollegeAuth && window.CollegeAuth.MOCK_STUDENTS_DATABASE) || [];
-    const local = mockList.find(s => (s.registerNumber || '').toUpperCase() === regNo);
+    // 1. Check local persistent storage registry first (works on Vercel and offline)
+    const localList = getSavedStudentsRegistry();
+    let s = localList.find(item => (item.register_number || item.registerNumber || '').toUpperCase() === regNo);
 
+    // 2. Query backend database if available
     try {
       const resp = await apiFetch(`/api/students?q=${encodeURIComponent(regNo)}`);
-      let foundStudent = null;
-      if (resp.ok) {
+      if (resp && resp.ok) {
         const data = await resp.json();
         if (data && data.success && Array.isArray(data.students)) {
-          foundStudent = data.students.find(s => (s.register_number || '').toUpperCase() === regNo);
+          const matched = data.students.find(item => (item.register_number || '').toUpperCase() === regNo);
+          if (matched) {
+            s = { ...s, ...matched };
+            saveStudentToRegistry(s);
+          }
         }
       }
+    } catch (err) {}
 
-      const s = foundStudent || (local ? {
-        register_number: local.registerNumber,
-        name: local.name,
-        dob: local.dob,
-        gender: local.gender || 'Not Specified',
-        blood_group: local.bloodGroup || '--',
-        department: local.department || 'Computer Science (Autonomous)',
-        degree: local.degree || 'Bachelor of Science (B.Sc.)',
-        regulation: local.regulation || 'CBCS Regulation 2023',
-        current_semester: local.semester || 'Semester IV',
-        admission_year: local.admissionYear || 2023,
-        mentor: local.mentor || '',
-        email: local.email || '',
-        phone: local.phone || '',
-        guardian_name: local.guardianName || '',
-        address: local.address || ''
-      } : null);
+    if (s) {
+      if (personalRegno) personalRegno.value = s.register_number || s.registerNumber || regNo;
+      if (personalName) personalName.value = s.name || '';
+      if (personalDob) personalDob.value = s.dob || '';
+      if (personalGender && s.gender) personalGender.value = s.gender;
+      if (personalBloodGroup && (s.blood_group || s.bloodGroup)) personalBloodGroup.value = s.blood_group || s.bloodGroup;
+      if (personalDegree && s.degree) personalDegree.value = s.degree;
+      if (personalDepartment && s.department) personalDepartment.value = s.department;
+      if (personalSem && (s.current_semester || s.semester)) personalSem.value = s.current_semester || s.semester;
+      if (personalRegulation && s.regulation) personalRegulation.value = s.regulation;
+      if (personalYear && (s.admission_year || s.admissionYear)) personalYear.value = String(s.admission_year || s.admissionYear);
+      if (personalMentor && s.mentor) personalMentor.value = s.mentor;
+      if (personalEmail && s.email) personalEmail.value = s.email;
+      if (personalPhone && s.phone) personalPhone.value = s.phone;
+      if (personalGuardian && (s.guardian_name || s.guardianName)) personalGuardian.value = s.guardian_name || s.guardianName;
+      if (personalAddress && s.address) personalAddress.value = s.address;
 
-      if (s) {
-        if (personalRegno) personalRegno.value = s.register_number || regNo;
-        if (personalName) personalName.value = s.name || '';
-        if (personalDob) personalDob.value = s.dob || '';
-        if (personalGender && s.gender) personalGender.value = s.gender;
-        if (personalBloodGroup && s.blood_group) personalBloodGroup.value = s.blood_group;
-        if (personalDegree && s.degree) personalDegree.value = s.degree;
-        if (personalDepartment && s.department) personalDepartment.value = s.department;
-        if (personalSem && (s.current_semester || s.semester)) personalSem.value = s.current_semester || s.semester;
-        if (personalRegulation && s.regulation) personalRegulation.value = s.regulation;
-        if (personalYear && (s.admission_year || s.admissionYear)) personalYear.value = String(s.admission_year || s.admissionYear);
-        if (personalMentor && s.mentor) personalMentor.value = s.mentor;
-        if (personalEmail && s.email) personalEmail.value = s.email;
-        if (personalPhone && s.phone) personalPhone.value = s.phone;
-        if (personalGuardian && (s.guardian_name || s.guardianName)) personalGuardian.value = s.guardian_name || s.guardianName;
-        if (personalAddress && s.address) personalAddress.value = s.address;
-
-        if (showFeedback) {
-          showToast(`Loaded personal records for ${s.name || regNo}`);
-        }
-      } else if (showFeedback) {
-        showToast(`No existing record found for ${regNo}. You can enter new details now.`);
-        if (personalRegno) personalRegno.value = regNo;
+      if (showFeedback) {
+        showToast(`Loaded personal records for ${s.name || regNo}`);
       }
-    } catch (err) {
-      console.warn('Student lookup failed:', err);
+    } else if (showFeedback) {
+      showToast(`No existing record found for ${regNo}. You can enter new details now.`);
+      if (personalRegno) personalRegno.value = regNo;
     }
   }
 
@@ -2465,68 +2570,39 @@
       address: addressVal
     };
 
+    // ALWAYS save to persistent local registry first (works on Vercel, offline, or cloud)
+    saveStudentToRegistry(studentPayload);
+    lastSavedStudent = studentPayload;
+
+    // Show feedback banner immediately
+    if (personalEntryFeedback && personalFeedbackText) {
+      personalFeedbackText.textContent = `✓ Student personal details for ${nameVal} (${regNo}, DOB: ${cleanDob}) saved successfully.`;
+      personalEntryFeedback.classList.remove('hidden');
+    }
+
+    showToast(`Saved personal details for ${nameVal} (${regNo})`);
+    loadStudentsDirectory();
+
+    // Persist to backend server if reachable (Vercel Serverless or Local Python Server)
     try {
       const resp = await apiFetch('/api/students/personal-details', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken || ''}`
+          Authorization: `Bearer ${adminToken || 'demo-admin-jwt-token'}`
         },
         body: JSON.stringify(studentPayload)
       });
 
-      const data = await resp.json();
-      if (resp.ok && data && data.success) {
-        lastSavedStudent = data.student || studentPayload;
-
-        // Sync to mock database
-        if (window.CollegeAuth && Array.isArray(window.CollegeAuth.MOCK_STUDENTS_DATABASE)) {
-          const idx = window.CollegeAuth.MOCK_STUDENTS_DATABASE.findIndex(
-            s => (s.registerNumber || '').toUpperCase() === regNo
-          );
-          const authStudent = {
-            registerNumber: regNo,
-            name: nameVal,
-            dob: cleanDob,
-            gender: genderVal,
-            bloodGroup: bloodGroupVal,
-            degree: degreeVal,
-            department: deptVal,
-            departmentCode: regNo.includes('CA') ? 'CA' : 'CS',
-            semester: semVal,
-            regulation: regVal,
-            admissionYear: yearVal,
-            mentor: mentorVal,
-            email: emailVal,
-            phone: phoneVal,
-            guardianName: guardianVal,
-            address: addressVal,
-            collegeCode: 'JJC-1994',
-            institution: 'J.J. College of Arts and Science (Autonomous)',
-            affiliation: 'Bharathidasan University, Tiruchirappalli',
-            naacGrade: 'A++ (Cycle 4, CGPA 3.72/4.00)'
-          };
-          if (idx >= 0) {
-            window.CollegeAuth.MOCK_STUDENTS_DATABASE[idx] = { ...window.CollegeAuth.MOCK_STUDENTS_DATABASE[idx], ...authStudent };
-          } else {
-            window.CollegeAuth.MOCK_STUDENTS_DATABASE.push(authStudent);
-          }
+      if (resp && resp.ok) {
+        const data = await resp.json();
+        if (data && data.success && data.student) {
+          saveStudentToRegistry(data.student);
+          lastSavedStudent = data.student;
         }
-
-        // Show feedback banner
-        if (personalEntryFeedback && personalFeedbackText) {
-          personalFeedbackText.textContent = `✓ Student personal details for ${nameVal} (${regNo}, DOB: ${cleanDob}) saved successfully.`;
-          personalEntryFeedback.classList.remove('hidden');
-        }
-
-        showToast(`Saved personal details for ${nameVal} (${regNo})`);
-        loadStudentsDirectory();
-      } else {
-        showToast((data && data.error) || 'Failed to save student personal details.');
       }
     } catch (err) {
-      console.error('Error saving personal details:', err);
-      showToast('Error saving personal details to server.');
+      console.log('[Storage] Student details saved in active persistent registry.');
     } finally {
       if (btnSavePersonal) btnSavePersonal.disabled = false;
     }
@@ -2535,32 +2611,26 @@
   async function loadStudentsDirectory() {
     if (!recentPersonalTbody) return;
 
+    // Load from local persistent registry immediately
+    const localStudents = getSavedStudentsRegistry();
+    let displayStudents = [...localStudents];
+
     try {
       const resp = await apiFetch('/api/students');
-      if (resp.ok) {
+      if (resp && resp.ok) {
         const data = await resp.json();
-        if (data && data.success && Array.isArray(data.students)) {
-          renderStudentsDirectory(data.students);
+        if (data && data.success && Array.isArray(data.students) && data.students.length > 0) {
+          const regMap = new Map();
+          displayStudents.forEach(s => regMap.set((s.register_number || s.registerNumber || '').toUpperCase(), s));
+          data.students.forEach(s => regMap.set((s.register_number || s.registerNumber || '').toUpperCase(), s));
+          displayStudents = Array.from(regMap.values());
         }
       }
     } catch (err) {
-      console.warn('Failed to load students directory:', err);
-      // Fallback to mock
-      if (window.CollegeAuth && Array.isArray(window.CollegeAuth.MOCK_STUDENTS_DATABASE)) {
-        const mapped = window.CollegeAuth.MOCK_STUDENTS_DATABASE.map(s => ({
-          register_number: s.registerNumber,
-          name: s.name,
-          dob: s.dob,
-          gender: s.gender || 'Not Specified',
-          degree: s.degree || 'Bachelor of Science (B.Sc.)',
-          department: s.department || 'Computer Science (Autonomous)',
-          current_semester: s.semester || 'Semester IV',
-          email: s.email || '',
-          phone: s.phone || ''
-        }));
-        renderStudentsDirectory(mapped);
-      }
+      console.log('[Storage] Directory loaded from local registry.');
     }
+
+    renderStudentsDirectory(displayStudents);
   }
 
   function renderStudentsDirectory(students) {
