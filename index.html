@@ -1,0 +1,1922 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Student Academic Portal — J.J. College of Arts and Science (Autonomous)</title>
+  
+  <meta name="description" content="Official autonomous college student academic portal. Sign in securely using your Register Number and Date of Birth to access attendance, class schedules, and circulars.">
+  <meta name="theme-color" content="#1E3A8A">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231E3A8A'><path d='M12 2L2 7l10 5 10-5-10-5z'/><path d='M2 17l10 5 10-5'/><path d='M2 12l10 5 10-5'/></svg>">
+
+  <!-- Core Design System Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="portal-root">
+    <!-- Ambient Lighting Gradients -->
+    <div class="ambient-background" aria-hidden="true">
+      <div class="ambient-blob-1"></div>
+      <div class="ambient-blob-2"></div>
+    </div>
+
+    <!-- Top Institutional Navigation Strip -->
+    <header id="main-top-nav" class="top-nav-strip">
+      <div class="institutional-badge">
+        <span class="badge-tag">AUTONOMOUS</span>
+        <span>J.J. College of Arts &amp; Science</span>
+        <span style="opacity: 0.5; margin: 0 4px;">|</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">NAAC A++ Re-Accredited</span>
+      </div>
+
+      <div class="nav-actions">
+        <button
+          type="button"
+          id="btn-open-admin-portal"
+          class="header-link-btn"
+          title="COE Administrator &amp; Faculty Desk"
+          style="background: var(--academic-accent-light); color: var(--academic-accent); border-color: var(--academic-accent-border);"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Admin Portal</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-nav-support"
+          class="header-link-btn"
+          aria-label="Contact student helpdesk support"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Helpdesk</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-theme-toggle"
+          class="btn-icon"
+          aria-label="Toggle light/dark theme"
+          title="Switch theme"
+        >
+          <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg id="theme-icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" style="flex: 1; display: flex; flex-direction: column;">
+      
+      <!-- ====================================================================
+           1. LOGIN VIEW SECTION
+           ==================================================================== -->
+      <section id="login-section" class="login-page-container">
+        <div class="login-card">
+          <!-- College Branding -->
+          <div class="college-brand">
+            <div class="college-crest-container" aria-hidden="true">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                <path d="M2 17l10 5 10-5"></path>
+                <path d="M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+            <h1 class="college-name">J.J. College of Arts &amp; Science (Autonomous)</h1>
+            <p class="college-affiliation">Affiliated to Bharathidasan University &bull; Re-Accredited &lsquo;A++&rsquo; by NAAC</p>
+
+            <h2 class="portal-welcome-heading">Sign In</h2>
+            <p class="portal-welcome-sub">Access your academic portal.</p>
+          </div>
+
+          <!-- Generic Submission Error Banner -->
+          <div id="login-generic-error" class="portal-error-banner hidden" role="alert" aria-live="assertive">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="login-generic-error-text">Unable to verify your details. Please check your register number and date of birth.</span>
+          </div>
+
+          <!-- Student Login Form -->
+          <form id="student-login-form" class="login-form" noValidate>
+            <!-- Field 1: Register Number -->
+            <div class="form-group">
+              <label for="student-regno" class="form-label">
+                <span>Register Number<span class="label-required">*</span></span>
+                <span class="form-helper-text">Format: e.g. P26CA2029</span>
+              </label>
+
+              <div class="input-container">
+                <div class="input-icon-left" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+
+                <input
+                  id="student-regno"
+                  name="registerNumber"
+                  type="text"
+                  autoComplete="off"
+                  spellCheck="false"
+                  class="form-input"
+                  placeholder="Enter your register number (e.g. P26CA2029)"
+                  value="P26CA2029"
+                  aria-required="true"
+                />
+
+                <button
+                  type="button"
+                  id="btn-clear-regno"
+                  class="input-action-btn"
+                  title="Clear register number"
+                  aria-label="Clear register number"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Inline error for register number -->
+              <div id="regno-error" class="form-error-msg hidden" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="regno-error-text"></span>
+              </div>
+            </div>
+
+            <!-- Field 2: Date of Birth -->
+            <div class="form-group" style="position: relative;">
+              <label for="student-dob" class="form-label">
+                <span>Date of Birth<span class="label-required">*</span></span>
+                <span class="form-helper-text">Display: DD / MM / YYYY</span>
+              </label>
+
+              <div class="input-container">
+                <div class="input-icon-left" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+
+                <input
+                  id="student-dob"
+                  name="dateOfBirth"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength="10"
+                  class="form-input"
+                  placeholder="DD / MM / YYYY"
+                  value="15/08/2005"
+                  aria-required="true"
+                />
+
+                <button
+                  type="button"
+                  id="btn-open-datepicker"
+                  class="input-action-btn"
+                  title="Open calendar date picker"
+                  aria-label="Open date of birth calendar picker"
+                  aria-expanded="false"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Accessible Calendar Popover -->
+              <div id="datepicker-popover" class="datepicker-popover hidden" role="dialog" aria-label="Select Date of Birth">
+                <div class="datepicker-header">
+                  <button type="button" id="btn-dp-prev-month" class="datepicker-nav-btn" aria-label="Previous Month">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  </button>
+
+                  <div class="datepicker-selectors">
+                    <select id="select-dp-month" class="datepicker-select" aria-label="Select month"></select>
+                    <select id="select-dp-year" class="datepicker-select" aria-label="Select year"></select>
+                  </div>
+
+                  <button type="button" id="btn-dp-next-month" class="datepicker-nav-btn" aria-label="Next Month">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+
+                <div class="calendar-weekdays" aria-hidden="true">
+                  <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                </div>
+
+                <div id="calendar-days-grid" class="calendar-days-grid" role="grid"></div>
+
+                <div class="datepicker-footer">
+                  <span style="font-size: 0.73rem; color: var(--text-muted);">DD/MM/YYYY</span>
+                  <button type="button" id="btn-dp-cancel" class="link-button" style="font-size: 0.78rem;">Cancel</button>
+                </div>
+              </div>
+
+              <!-- Inline error for date of birth -->
+              <div id="dob-error" class="form-error-msg hidden" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="dob-error-text"></span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              id="btn-login-submit"
+              class="btn-primary"
+            >
+              <span id="btn-submit-spinner" class="btn-spinner hidden" aria-hidden="true"></span>
+              <span id="btn-submit-text">Sign In</span>
+              <svg id="btn-submit-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Security & Privacy Pill -->
+          <div class="security-advisory-pill" style="margin-top: 1.25rem; margin-bottom: 0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="flex-shrink: 0; margin-top: 2px;">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <div>
+              <strong>Privacy Protection:</strong> Register number and date of birth are confidential and are never stored in browser persistent storage or logged.
+            </div>
+          </div>
+
+          <!-- Footer Action Links -->
+          <div class="login-card-footer">
+            <div class="footer-action-row">
+              <button
+                type="button"
+                id="btn-open-help"
+                class="link-button"
+                aria-label="Student sign in help"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Can&apos;t sign in? Need Help?</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-open-support"
+                class="link-button"
+                aria-label="Contact college support desk"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <span>College Support</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PAGE 2: MINIMAL & UNIQUE COLLEGE MARK STATEMENT (/marks)
+           Design Concept: Minimal Academic Elegance (University Certificate & Editorial)
+           ==================================================================== -->
+      <section id="marks-section" class="academic-page-container hidden">
+        <!-- 1. Minimal Header -->
+        <header class="minimal-academic-header">
+          <div class="header-content-inner">
+            <div class="emblem-brand-group">
+              <div class="minimal-monogram" aria-hidden="true">JJ</div>
+              <div class="header-title-block">
+                <span class="header-college-name">J.J. College of Arts &amp; Science (Autonomous)</span>
+                <span class="header-label-badge">EXAMINATION PORTAL</span>
+              </div>
+            </div>
+
+            <div class="header-utility-actions">
+              <button
+                type="button"
+                id="btn-statement-to-admin"
+                class="link-logout"
+                style="display: none; border-color: var(--academic-accent); color: var(--academic-accent); font-weight: 600;"
+                title="Return to Admin & Faculty Portal"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>&larr; Admin Portal</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-statement-refresh"
+                class="link-logout"
+                title="Reload Latest Current Marks"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <span>Refresh Marks</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-marks-theme"
+                class="link-logout"
+                title="Toggle Theme"
+                aria-label="Toggle theme"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <span>Theme</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-marks-logout"
+                class="link-logout"
+                title="Logout of Examination Portal"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- 2. Main Content Wrapper -->
+        <div class="statement-main-wrap">
+          <!-- Editorial Heading & Examination Selectors -->
+          <div class="statement-heading-section">
+            <span class="statement-category-label">ACADEMIC RECORDS / EXAMINATION RESULTS</span>
+            <h1 class="statement-headline">Statement of Marks</h1>
+            <p class="statement-subheadline">Your examination performance, clearly presented.</p>
+
+            <div class="statement-selectors-row">
+              <div class="selector-field-group">
+                <label for="select-academic-year" class="selector-label">Academic Year</label>
+                <select id="select-academic-year" class="selector-dropdown">
+                  <option value="2025 - 2026" selected>2025 - 2026</option>
+                  <option value="2024 - 2025">2024 - 2025</option>
+                  <option value="2023 - 2024">2023 - 2024</option>
+                </select>
+              </div>
+
+              <div class="selector-field-group">
+                <label for="select-semester" class="selector-label">Semester</label>
+                <select id="select-semester" class="selector-dropdown">
+                  <option value="Semester IV" selected>Semester IV</option>
+                  <option value="Semester III">Semester III</option>
+                  <option value="Semester II">Semester II</option>
+                  <option value="Semester I">Semester I</option>
+                </select>
+              </div>
+
+              <div class="selector-field-group">
+                <label for="select-exam-type" class="selector-label">Exam Type</label>
+                <select id="select-exam-type" class="selector-dropdown">
+                  <option value="Regular - End Semester" selected>Regular - End Semester</option>
+                  <option value="Supplementary / Arrear">Supplementary / Arrear</option>
+                  <option value="Continuous Internal (CIA)">Continuous Internal (CIA)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Mark Statement Document Surface -->
+          <article id="mark-statement-surface" class="mark-statement-surface">
+            <!-- Academic Document Header -->
+            <div class="statement-doc-header">
+              <div class="doc-institution-col">
+                <div class="doc-institution-title">J.J. College of Arts and Science (Autonomous)</div>
+                <div class="doc-institution-sub">Affiliated to Bharathidasan University &bull; NAAC Re-Accredited &lsquo;A++&rsquo; Grade &bull; Pudukkottai</div>
+              </div>
+
+              <div class="doc-title-pill-group">
+                <div class="doc-statement-title">STATEMENT OF MARKS</div>
+                <div id="doc-session-text" class="doc-session-tag">Academic Year 2025 - 2026 &bull; Semester IV</div>
+                <div id="doc-status-badge" class="doc-result-status-badge">RESULT: PASS</div>
+              </div>
+            </div>
+
+            <!-- Student Metadata Grid -->
+            <div class="student-record-meta-grid">
+              <div class="meta-record-cell">
+                <span class="meta-cell-label">Register Number</span>
+                <span id="doc-regno" class="meta-cell-value is-mono">P26CA2029</span>
+              </div>
+
+              <div class="meta-record-cell">
+                <span class="meta-cell-label">Student Name</span>
+                <span id="doc-name" class="meta-cell-value">ANANYA RAMAN</span>
+              </div>
+
+              <div class="meta-record-cell">
+                <span class="meta-cell-label">Programme &amp; Department</span>
+                <span id="doc-programme" class="meta-cell-value">B.Sc. Computer Science (Autonomous)</span>
+              </div>
+
+              <div class="meta-record-cell">
+                <span class="meta-cell-label">Regulation &amp; Session</span>
+                <span id="doc-regulation" class="meta-cell-value">CBCS 2023 &bull; November 2025</span>
+              </div>
+            </div>
+
+            <!-- Mobile Scroll Indicator (only visible on narrow screens) -->
+            <div class="mobile-table-scroll-hint" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span>Swipe horizontally to view full subject marks</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+
+            <!-- Marks Table -->
+            <div class="statement-table-wrapper">
+              <table class="minimal-marks-table" aria-label="Statement of Marks Table">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 12%;">Code</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col" style="text-align: right; width: 14%;">Internal</th>
+                    <th scope="col" style="text-align: right; width: 14%;">External</th>
+                    <th scope="col" style="text-align: right; width: 14%;">Total</th>
+                    <th scope="col" style="text-align: center; width: 12%;">Result</th>
+                  </tr>
+                </thead>
+                <tbody id="statement-marks-tbody">
+                  <!-- Dynamically populated from mock results -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 4. Distinctive Horizontal Results Summary -->
+            <div class="results-summary-strip">
+              <div class="summary-metric-unit">
+                <span class="summary-label">Total Marks</span>
+                <span id="summary-total-marks" class="summary-numeral">--</span>
+              </div>
+
+              <div class="summary-metric-unit">
+                <span class="summary-label">Maximum Marks</span>
+                <span id="summary-max-marks" class="summary-numeral">--</span>
+              </div>
+
+              <div class="summary-metric-unit">
+                <span class="summary-label">Percentage</span>
+                <span id="summary-percentage" class="summary-numeral accent">--%</span>
+              </div>
+
+              <div class="summary-metric-unit">
+                <span class="summary-label">Overall Result</span>
+                <span id="summary-overall-result" class="summary-status-text">PASS</span>
+              </div>
+            </div>
+
+            <!-- 5. Academic Seal & Reference Finishing Detail -->
+            <div class="statement-finishing-footer">
+              <div class="reference-disclaimer-note">
+                <strong>NOTICE:</strong> This statement is a computer-generated digital reference copy issued by the Office of the Controller of Examinations. Not an official university certificate.
+              </div>
+
+              <div class="seal-monogram-container">
+                <div class="academic-subtle-seal" aria-hidden="true">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="12 4 14.5 9 20 9.5 16 13.5 17 19 12 16 7 19 8 13.5 4 9.5 9.5 9 12 4"></polygon>
+                  </svg>
+                </div>
+                <div class="seal-caption-block">
+                  <span class="seal-stamp-text">DIGITAL COPY &bull; FOR REFERENCE</span>
+                  <span id="seal-timestamp" class="seal-date-text">Issued for Student Reference</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Bottom Functional Action Buttons -->
+          <div class="statement-actions-row">
+            <button type="button" id="btn-statement-update-mark" class="btn-academic-solid hidden" style="background: var(--academic-accent); color: #fff;" title="Administrator Mark Correction">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <span>Update Marks (Admin)</span>
+            </button>
+
+            <button type="button" id="btn-download-pdf" class="btn-academic-outline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Download PDF</span>
+            </button>
+
+            <button type="button" id="btn-print-statement" class="btn-academic-outline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span>Print Statement</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. ADMIN & FACULTY INGESTION PORTAL (PHASE 2)
+           ==================================================================== -->
+      <section id="admin-section" class="academic-page-container hidden">
+        <!-- Minimal Admin Top Header -->
+        <header class="minimal-academic-header">
+          <div class="header-content-inner">
+            <div class="header-institution-block">
+              <div class="header-monogram-shield" aria-hidden="true">COE</div>
+              <div class="header-titles">
+                <span class="header-college-name">J.J. College of Arts and Science (Autonomous)</span>
+                <span class="header-portal-label">CONTROLLER OF EXAMINATIONS &bull; MARKS INGESTION</span>
+              </div>
+            </div>
+
+            <div class="header-action-block">
+              <div id="admin-user-badge" class="admin-user-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span id="admin-user-display">Administrator (admin)</span>
+              </div>
+
+              <button
+                type="button"
+                id="btn-admin-theme"
+                class="header-link-btn"
+                aria-label="Toggle theme"
+                title="Switch light/dark theme"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <span>Theme</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-admin-logout"
+                class="header-link-btn danger"
+                title="Sign out of Admin Portal"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Admin Portal Container -->
+        <div class="admin-portal-container">
+          <!-- Top Title Strip -->
+          <div class="admin-header-strip">
+            <div class="admin-title-group">
+              <span class="statement-category-label">FACULTY &amp; CONTROLLER OF EXAMINATIONS DESK</span>
+              <h1>Marks Registry &amp; Ingestion Portal</h1>
+              <p class="admin-card-sub">Ingest class-wide marks via Excel or CSV, perform individual corrections, and maintain autonomous 10-point CBCS grade records.</p>
+            </div>
+          </div>
+
+          <!-- Navigation Tab Bar -->
+          <nav class="admin-tabs-nav" role="tablist">
+            <button type="button" id="tab-btn-bulk" class="admin-tab-btn active" role="tab" aria-selected="true" aria-controls="tab-pane-bulk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Bulk Data Upload (Excel / CSV)</span>
+            </button>
+            <button type="button" id="tab-btn-manual" class="admin-tab-btn" role="tab" aria-selected="false" aria-controls="tab-pane-manual">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <span>Manual Entry &amp; Corrections</span>
+            </button>
+            <button type="button" id="tab-btn-ledger" class="admin-tab-btn" role="tab" aria-selected="false" aria-controls="tab-pane-ledger">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Marks Registry Ledger</span>
+            </button>
+            <button type="button" id="tab-btn-subjects" class="admin-tab-btn" role="tab" aria-selected="false" aria-controls="tab-pane-subjects" style="display: none;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="13" y2="11"></line></svg>
+              <span>Subject Code Change Portal</span>
+              <span class="admin-only-badge" style="font-size: 0.65rem; background: var(--academic-accent); color: #fff; padding: 0.12rem 0.4rem; border-radius: 3px; margin-left: 0.35rem; font-weight: 700; letter-spacing: 0.05em;">ADMIN ONLY</span>
+            </button>
+          </nav>
+
+          <!-- ==========================================
+               TAB 1: BULK DATA UPLOAD
+               ========================================== -->
+          <div id="tab-pane-bulk" class="admin-tab-pane" role="tabpanel">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h2 class="admin-card-title">Bulk Class Grade-Sheet Ingestion</h2>
+                  <p class="admin-card-sub">Upload an Excel (.xlsx / .xls) or CSV (.csv) workbook containing subject scores for multiple students.</p>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button type="button" id="btn-download-xlsx-tpl" class="btn-table-action" title="Download Excel template">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Excel (.xlsx) Template
+                  </button>
+                  <button type="button" id="btn-download-csv-tpl" class="btn-table-action" title="Download CSV template">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download CSV Template
+                  </button>
+                </div>
+              </div>
+
+              <!-- Upload Session Context Selectors -->
+              <div class="statement-selectors-row" style="margin-top: 0;">
+                <div class="selector-field-group">
+                  <label for="bulk-upload-year" class="selector-label">Target Academic Year</label>
+                  <select id="bulk-upload-year" class="selector-dropdown">
+                    <option value="2025 - 2026" selected>2025 - 2026</option>
+                    <option value="2024 - 2025">2024 - 2025</option>
+                    <option value="2023 - 2024">2023 - 2024</option>
+                  </select>
+                </div>
+
+                <div class="selector-field-group">
+                  <label for="bulk-upload-sem" class="selector-label">Target Semester</label>
+                  <select id="bulk-upload-sem" class="selector-dropdown">
+                    <option value="Semester IV" selected>Semester IV</option>
+                    <option value="Semester III">Semester III</option>
+                    <option value="Semester II">Semester II</option>
+                    <option value="Semester I">Semester I</option>
+                  </select>
+                </div>
+
+                <div class="selector-field-group">
+                  <label for="bulk-upload-exam-type" class="selector-label">Target Examination</label>
+                  <select id="bulk-upload-exam-type" class="selector-dropdown">
+                    <option value="Regular - End Semester" selected>Regular - End Semester</option>
+                    <option value="Supplementary / Arrear">Supplementary / Arrear</option>
+                    <option value="Continuous Internal (CIA)">Continuous Internal (CIA)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Drag and Drop Zone -->
+              <div id="bulk-dropzone" class="upload-dropzone" tabindex="0" role="button" aria-label="Dropzone for Excel or CSV file upload">
+                <input type="file" id="bulk-file-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                <div class="dropzone-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--academic-ink);">
+                  Drag &amp; drop class marks workbook here, or <span style="color: var(--academic-accent); text-decoration: underline;">browse computer</span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--academic-ink-muted);">
+                  Accepted file formats: Microsoft Excel (<code>.xlsx</code>, <code>.xls</code>) or Comma Separated (<code>.csv</code>) &bull; Max 25MB
+                </div>
+                <div id="selected-file-display" class="file-selected-badge hidden">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span id="selected-file-name">filename.xlsx</span>
+                  <span id="selected-file-size" style="opacity: 0.7;">(0 KB)</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                <button type="button" id="btn-clear-upload-file" class="btn-academic-outline" style="height: 42px; padding: 0 1rem; display: none;">
+                  Cancel File
+                </button>
+                <button type="button" id="btn-execute-upload" class="btn-academic-solid" style="height: 42px; padding: 0 1.5rem;" disabled>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>
+                  <span>Ingest Marks to Database</span>
+                </button>
+              </div>
+
+              <!-- Upload Result Summary Banner -->
+              <div id="bulk-upload-report" class="upload-report-banner hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <h3 style="font-size: 1rem; font-weight: 700; color: var(--academic-ink); display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--academic-accent)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Batch Ingestion Summary
+                  </h3>
+                  <span id="report-timestamp" style="font-size: 0.75rem; color: var(--academic-ink-muted);">Just now</span>
+                </div>
+
+                <div class="report-metrics-grid">
+                  <div class="report-metric-box">
+                    <span class="label">Total Processed</span>
+                    <span id="metric-total-rows" class="val">0</span>
+                  </div>
+                  <div class="report-metric-box" style="border-left: 3px solid var(--academic-accent);">
+                    <span class="label">Successfully Saved</span>
+                    <span id="metric-success-rows" class="val" style="color: var(--academic-accent);">0</span>
+                  </div>
+                  <div class="report-metric-box">
+                    <span class="label">Updated Records</span>
+                    <span id="metric-updated-rows" class="val">0</span>
+                  </div>
+                  <div class="report-metric-box" style="border-left: 3px solid var(--error);">
+                    <span class="label">Errors / Skipped</span>
+                    <span id="metric-error-rows" class="val" style="color: var(--error);">0</span>
+                  </div>
+                </div>
+
+                <!-- Error Breakdown Table -->
+                <div id="upload-errors-container" class="hidden">
+                  <h4 style="font-size: 0.82rem; font-weight: 700; color: var(--error); margin-bottom: 0.4rem;">
+                    Validation Failures &amp; Error Log:
+                  </h4>
+                  <div style="max-height: 200px; overflow-y: auto;">
+                    <table class="error-log-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 15%;">Row #</th>
+                          <th style="width: 25%;">Register No</th>
+                          <th>Validation Error Reason</th>
+                        </tr>
+                      </thead>
+                      <tbody id="error-log-tbody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==========================================
+               TAB 2: MANUAL ENTRY & CORRECTIONS
+               ========================================== -->
+          <div id="tab-pane-manual" class="admin-tab-pane hidden" role="tabpanel">
+            <!-- Top Header Card with Sub-Navigation Bar -->
+            <div class="admin-card" style="margin-bottom: 1.25rem;">
+              <div class="admin-card-header" style="align-items: flex-start; margin-bottom: 1rem;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.7rem; background: var(--academic-accent); color: #fff; padding: 0.15rem 0.5rem; border-radius: 3px; font-weight: 700; letter-spacing: 0.05em;">MANUAL DATA SUITE</span>
+                    <span style="font-size: 0.78rem; font-weight: 700; color: var(--academic-accent); text-transform: uppercase;">Faculty &amp; Records Portal</span>
+                  </div>
+                  <h2 class="admin-card-title">Manual Data Entry &amp; Student Personal Portal</h2>
+                  <p class="admin-card-sub">
+                    Enter examination scores, correct grades, or manage student demographic profiles and official registration records in the dedicated personal portal.
+                  </p>
+                </div>
+                <div class="admin-user-pill" style="border-color: var(--academic-accent); color: var(--academic-accent); font-weight: 600;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span>Student &amp; Examination Records</span>
+                </div>
+              </div>
+
+              <!-- Inner Sub-Navigation: Marks Entry vs Personal Details Portal -->
+              <div class="portal-subnav-bar">
+                <button type="button" id="subnav-manual-marks-btn" class="portal-subnav-btn active">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>Manual Marks &amp; Grade Entry</span>
+                </button>
+
+                <button type="button" id="subnav-manual-personal-btn" class="portal-subnav-btn">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                  <span>Student Personal Details Portal</span>
+                  <span style="font-size: 0.65rem; background: var(--academic-accent-light); color: var(--academic-accent); padding: 0.12rem 0.45rem; border-radius: 3px; font-weight: 700;">PERSONAL PORTAL</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SUBVIEW 1: MANUAL MARKS & GRADE ENTRY
+                 ========================================== -->
+            <div id="manual-marks-subview">
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <div>
+                    <h2 class="admin-card-title">Manual Grade &amp; Mark Entry</h2>
+                    <p class="admin-card-sub">Fallback form for faculty members to insert new examination scores or update and correct individual student grades.</p>
+                  </div>
+                </div>
+
+                <form id="manual-marks-form" noValidate>
+                  <div class="manual-entry-grid">
+                    <div class="form-field-unit">
+                      <label for="manual-regno">Register Number *</label>
+                      <input type="text" id="manual-regno" placeholder="e.g. P26CA2029" required autocomplete="off">
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-subcode">Subject Code *</label>
+                      <input type="text" id="manual-subcode" placeholder="e.g. CS401" required autocomplete="off">
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-year">Academic Year</label>
+                      <select id="manual-year">
+                        <option value="2025 - 2026" selected>2025 - 2026</option>
+                        <option value="2024 - 2025">2024 - 2025</option>
+                        <option value="2023 - 2024">2023 - 2024</option>
+                      </select>
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-sem">Semester</label>
+                      <select id="manual-sem">
+                        <option value="Semester IV" selected>Semester IV</option>
+                        <option value="Semester III">Semester III</option>
+                        <option value="Semester II">Semester II</option>
+                        <option value="Semester I">Semester I</option>
+                      </select>
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-examtype">Examination Type</label>
+                      <select id="manual-examtype">
+                        <option value="Regular - End Semester" selected>Regular - End Semester</option>
+                        <option value="Supplementary / Arrear">Supplementary / Arrear</option>
+                        <option value="Continuous Internal (CIA)">Continuous Internal (CIA)</option>
+                      </select>
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-internal">Internal Score (Max 25) *</label>
+                      <input type="number" id="manual-internal" min="0" max="25" step="0.5" placeholder="0 - 25" required>
+                    </div>
+
+                    <div class="form-field-unit">
+                      <label for="manual-external">External Score (Max 75) *</label>
+                      <input type="number" id="manual-external" min="0" max="75" step="0.5" placeholder="0 - 75" required>
+                    </div>
+                  </div>
+
+                  <!-- Live Result Calculation Preview -->
+                  <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--academic-border); padding-top: 1.25rem;">
+                    <div class="live-grade-pill">
+                      <span style="font-weight: 700;">LIVE EVALUATION:</span>
+                      <span>Total: <strong id="live-total-preview">0 / 100</strong></span>
+                      <span>Grade: <strong id="live-grade-preview">RA</strong></span>
+                      <span>Grade Point: <strong id="live-point-preview">0</strong></span>
+                      <span>Status: <strong id="live-status-preview">REAPPEAR</strong></span>
+                    </div>
+
+                    <button type="submit" id="btn-save-manual-mark" class="btn-academic-solid" style="height: 44px; padding: 0 1.75rem;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                      <span>Save Mark Record</span>
+                    </button>
+                  </div>
+                </form>
+
+                <!-- Live On-Screen Confirmation Banner -->
+                <div id="manual-entry-feedback" class="upload-report-banner hidden" style="border-left: 4px solid var(--academic-accent); padding: 1rem 1.25rem;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--academic-accent)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                      <span id="manual-feedback-text" style="font-weight: 700; color: var(--academic-ink); font-size: 0.92rem;">Mark record saved successfully!</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                      <button type="button" id="btn-goto-statement" class="btn-academic-solid" style="font-size: 0.82rem; padding: 0.45rem 1rem; height: auto;">
+                        Next: View Current Updated Statement &rarr;
+                      </button>
+                      <button type="button" id="btn-goto-ledger" class="btn-table-action" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        View in Ledger
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recent Entries on this device -->
+                <div id="recent-manual-entries-wrap" style="margin-top: 1rem;">
+                  <h3 style="font-size: 0.88rem; font-weight: 700; color: var(--academic-ink-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">
+                    Recently Updated / Saved Marks
+                  </h3>
+                  <div class="statement-table-wrapper">
+                    <table class="minimal-marks-table" style="font-size: 0.82rem;">
+                      <thead>
+                        <tr>
+                          <th>Reg No</th>
+                          <th>Subject Code</th>
+                          <th>Semester</th>
+                          <th style="text-align: right;">Internal</th>
+                          <th style="text-align: right;">External</th>
+                          <th style="text-align: right;">Total</th>
+                          <th style="text-align: center;">Grade</th>
+                          <th>Result</th>
+                          <th style="text-align: center;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="recent-manual-tbody">
+                        <tr>
+                          <td colspan="9" style="text-align: center; padding: 1.25rem; color: var(--academic-ink-muted);">
+                            No new records entered yet in this session.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SUBVIEW 2: STUDENT PERSONAL DETAILS PORTAL
+                 ========================================== -->
+            <div id="manual-personal-subview" class="hidden">
+              <div class="admin-card">
+                <div class="admin-card-header" style="align-items: flex-start; margin-bottom: 1.25rem;">
+                  <div>
+                    <h2 class="admin-card-title">Student Personal Details Portal</h2>
+                    <p class="admin-card-sub">
+                      Dedicated registry for student personal demographics, contact information, academic degrees, and faculty mentor assignments. Records saved here automatically synchronize student login authentication credentials.
+                    </p>
+                  </div>
+                  <!-- Quick search toolbar -->
+                  <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative; display: flex; align-items: center;">
+                      <input type="text" id="personal-search-regno" placeholder="Search Reg No (e.g. P26CA2029)" style="font-size: 0.82rem; padding: 0.45rem 0.75rem; border: 1px solid var(--academic-border); border-radius: 4px; text-transform: uppercase; width: 220px;" autocomplete="off">
+                    </div>
+                    <button type="button" id="btn-personal-lookup" class="btn-academic-solid" style="font-size: 0.82rem; padding: 0.45rem 0.85rem; height: auto;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -1px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                      Fetch Details
+                    </button>
+                    <button type="button" id="btn-personal-clear" class="btn-table-action" style="font-size: 0.8rem; padding: 0.4rem 0.75rem;">
+                      Clear Form
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Personal Details Form -->
+                <form id="student-personal-form" noValidate>
+                  <!-- Section 1: Academic Identity -->
+                  <div style="margin-bottom: 1.25rem;">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--academic-accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      1. Academic Identity &amp; Bio-Data
+                    </div>
+                    <div class="manual-entry-grid">
+                      <div class="form-field-unit">
+                        <label for="personal-regno">Register Number *</label>
+                        <input type="text" id="personal-regno" placeholder="e.g. P26CA2029" required autocomplete="off">
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-name">Student Full Name *</label>
+                        <input type="text" id="personal-name" placeholder="e.g. Ananya Raman" required autocomplete="off">
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-dob">Date of Birth (DD/MM/YYYY) *</label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                          <input type="text" id="personal-dob" placeholder="DD/MM/YYYY" maxlength="10" required autocomplete="off" style="padding-right: 2.25rem;">
+                          <span style="position: absolute; right: 0.75rem; pointer-events: none; color: var(--academic-ink-muted);">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-gender">Gender</label>
+                        <select id="personal-gender">
+                          <option value="Not Specified">Select Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Transgender / Other">Transgender / Other</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-blood-group">Blood Group</label>
+                        <select id="personal-blood-group">
+                          <option value="--">Select Blood Group</option>
+                          <option value="O+">O+</option>
+                          <option value="O-">O-</option>
+                          <option value="A+">A+</option>
+                          <option value="A-">A-</option>
+                          <option value="B+">B+</option>
+                          <option value="B-">B-</option>
+                          <option value="AB+">AB+</option>
+                          <option value="AB-">AB-</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-guardian">Father / Guardian Name</label>
+                        <input type="text" id="personal-guardian" placeholder="e.g. S. Raman" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Section 2: Programme & Academic Classification -->
+                  <div style="margin-bottom: 1.25rem; border-top: 1px dashed var(--academic-border); padding-top: 1.25rem;">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--academic-accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                      2. Academic Programme &amp; Curriculum Enrollment
+                    </div>
+                    <div class="manual-entry-grid">
+                      <div class="form-field-unit">
+                        <label for="personal-degree">Degree / Programme</label>
+                        <select id="personal-degree">
+                          <option value="Bachelor of Science (B.Sc.)" selected>Bachelor of Science (B.Sc.)</option>
+                          <option value="Master of Computer Applications (M.C.A.)">Master of Computer Applications (M.C.A.)</option>
+                          <option value="Bachelor of Computer Applications (B.C.A.)">Bachelor of Computer Applications (B.C.A.)</option>
+                          <option value="Bachelor of Commerce (B.Com.)">Bachelor of Commerce (B.Com.)</option>
+                          <option value="Master of Science (M.Sc.)">Master of Science (M.Sc.)</option>
+                          <option value="Bachelor of Arts (B.A.)">Bachelor of Arts (B.A.)</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-department">Department</label>
+                        <select id="personal-department">
+                          <option value="Computer Science (Autonomous)" selected>Computer Science (Autonomous)</option>
+                          <option value="Computer Applications">Computer Applications</option>
+                          <option value="Information Technology">Information Technology</option>
+                          <option value="Mathematics">Mathematics</option>
+                          <option value="Commerce &amp; Accountancy">Commerce &amp; Accountancy</option>
+                          <option value="English Literature">English Literature</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-sem">Current Semester</label>
+                        <select id="personal-sem">
+                          <option value="Semester IV" selected>Semester IV</option>
+                          <option value="Semester III">Semester III</option>
+                          <option value="Semester II">Semester II</option>
+                          <option value="Semester I">Semester I</option>
+                          <option value="Semester V">Semester V</option>
+                          <option value="Semester VI">Semester VI</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-regulation">Academic Regulation</label>
+                        <select id="personal-regulation">
+                          <option value="CBCS Regulation 2023" selected>CBCS Regulation 2023</option>
+                          <option value="CBCS Regulation 2021">CBCS Regulation 2021</option>
+                          <option value="Autonomous Regulation 2024">Autonomous Regulation 2024</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-year">Admission Year / Batch</label>
+                        <select id="personal-year">
+                          <option value="2023" selected>2023 - 2026 Batch</option>
+                          <option value="2024">2024 - 2027 Batch</option>
+                          <option value="2025">2025 - 2028 Batch</option>
+                          <option value="2022">2022 - 2025 Batch</option>
+                        </select>
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-mentor">Faculty Mentor / Advisor</label>
+                        <input type="text" id="personal-mentor" placeholder="e.g. Dr. K. Ramanathan, M.Sc., Ph.D." autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Section 3: Contact Details & Residence -->
+                  <div style="margin-bottom: 1.25rem; border-top: 1px dashed var(--academic-border); padding-top: 1.25rem;">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--academic-accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      3. Contact &amp; Residential Address
+                    </div>
+                    <div class="manual-entry-grid">
+                      <div class="form-field-unit">
+                        <label for="personal-email">Student Official Email</label>
+                        <input type="email" id="personal-email" placeholder="e.g. p26ca2029@jjcollege.edu.in" autocomplete="off">
+                      </div>
+
+                      <div class="form-field-unit">
+                        <label for="personal-phone">Mobile / Contact Number</label>
+                        <input type="tel" id="personal-phone" placeholder="e.g. +91 98421 23456" autocomplete="off">
+                      </div>
+
+                      <div class="form-field-unit" style="grid-column: span 2;">
+                        <label for="personal-address">Permanent / Native Address</label>
+                        <input type="text" id="personal-address" placeholder="Door No, Street Name, Town / City, District, PIN Code" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Submit Toolbar -->
+                  <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--academic-border); padding-top: 1.25rem;">
+                    <div style="font-size: 0.82rem; color: var(--academic-ink-muted);">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                      Saving updates both student academic profile and login credentials automatically.
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem;">
+                      <button type="button" id="btn-reset-personal-form" class="btn-academic-outline" style="height: 44px; padding: 0 1.25rem;">
+                        Reset Form
+                      </button>
+                      <button type="submit" id="btn-save-personal" class="btn-academic-solid" style="height: 44px; padding: 0 1.75rem;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        <span>Save Student Personal Details</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+
+                <!-- Personal Entry Feedback Banner -->
+                <div id="personal-entry-feedback" class="upload-report-banner hidden" style="border-left: 4px solid var(--academic-accent); padding: 1rem 1.25rem; margin-top: 1.25rem;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--academic-accent)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                      <span id="personal-feedback-text" style="font-weight: 700; color: var(--academic-ink); font-size: 0.92rem;">Student personal details saved successfully!</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                      <button type="button" id="btn-personal-enter-marks" class="btn-academic-solid" style="font-size: 0.82rem; padding: 0.45rem 1rem; height: auto;">
+                        Enter Marks for this Student &rarr;
+                      </button>
+                      <button type="button" id="btn-personal-view-statement" class="btn-table-action" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        View Student Statement
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recent Registered / Updated Students Registry -->
+                <div id="recent-personal-entries-wrap" style="margin-top: 1.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 0.88rem; font-weight: 700; color: var(--academic-ink-muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0;">
+                      Student Directory &amp; Personal Profile Records
+                    </h3>
+                    <button type="button" id="btn-refresh-students-list" class="btn-table-action" style="font-size: 0.78rem; padding: 0.25rem 0.65rem;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -1px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                      Refresh Directory
+                    </button>
+                  </div>
+                  <div class="statement-table-wrapper">
+                    <table class="minimal-marks-table" style="font-size: 0.82rem;">
+                      <thead>
+                        <tr>
+                          <th>Reg No</th>
+                          <th>Full Name</th>
+                          <th>Date of Birth</th>
+                          <th>Gender</th>
+                          <th>Degree &amp; Department</th>
+                          <th>Semester</th>
+                          <th>Contact</th>
+                          <th style="text-align: center;">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="recent-personal-tbody">
+                        <tr>
+                          <td colspan="8" style="text-align: center; padding: 1.25rem; color: var(--academic-ink-muted);">
+                            Loading student directory...
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==========================================
+               TAB 3: MARKS REGISTRY LEDGER
+               ========================================== -->
+          <div id="tab-pane-ledger" class="admin-tab-pane hidden" role="tabpanel">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h2 class="admin-card-title">Database Marks Ledger</h2>
+                  <p class="admin-card-sub">Real-time ledger of examination marks stored in SQLite database with instant query and delete controls.</p>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                  <button type="button" id="btn-refresh-ledger" class="btn-table-action" style="padding: 0.5rem 0.85rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    Refresh Ledger
+                  </button>
+                  <button type="button" id="btn-clear-all-ledger" class="btn-table-action delete" style="padding: 0.5rem 0.85rem; color: #dc2626; border-color: #fca5a5; background: #fef2f2;" title="Remove all marks records from database">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    Remove All Records
+                  </button>
+                </div>
+              </div>
+
+              <!-- Search and Filter Toolbar -->
+              <div class="ledger-toolbar">
+                <div class="ledger-search-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--academic-ink-muted)" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="ledger-search-input" placeholder="Search by Register Number or Subject Code...">
+                </div>
+
+                <div style="display: flex; gap: 0.65rem; align-items: center;">
+                  <select id="ledger-filter-sem" class="selector-dropdown" style="padding: 0.35rem 0.65rem; height: 34px;">
+                    <option value="" selected>All Semesters</option>
+                    <option value="Semester IV">Semester IV</option>
+                    <option value="Semester III">Semester III</option>
+                    <option value="Semester II">Semester II</option>
+                    <option value="Semester I">Semester I</option>
+                  </select>
+
+                  <span id="ledger-total-count" style="font-size: 0.78rem; font-weight: 700; color: var(--academic-ink-muted);">0 records</span>
+                </div>
+              </div>
+
+              <!-- Ledger Data Table -->
+              <div class="statement-table-wrapper" style="max-height: 450px; overflow-y: auto;">
+                <table class="minimal-marks-table">
+                  <thead>
+                    <tr>
+                      <th>Reg No</th>
+                      <th>Subject Code</th>
+                      <th>Subject Name</th>
+                      <th>Semester</th>
+                      <th style="text-align: right;">Internal</th>
+                      <th style="text-align: right;">External</th>
+                      <th style="text-align: right;">Total</th>
+                      <th style="text-align: center;">Grade</th>
+                      <th>Result</th>
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ledger-table-tbody">
+                    <tr>
+                      <td colspan="10" style="text-align: center; padding: 2rem; color: var(--academic-ink-muted);">
+                        Loading ledger records from database...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==========================================
+               TAB 4: SUBJECT CODE CHANGE & CURRICULUM MANAGEMENT (ADMIN-ONLY)
+               ========================================== -->
+          <div id="tab-pane-subjects" class="admin-tab-pane hidden" role="tabpanel">
+            <!-- Access Guard Notice (rendered if non-admin attempts access) -->
+            <div id="subjects-access-denied" class="portal-error-banner hidden" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <div>
+                <strong>Access Restricted to Administrator (COE)</strong>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">Faculty accounts have mark-entry permissions only. Subject code modifications and curriculum catalog changes must be performed by the Controller of Examinations.</p>
+              </div>
+            </div>
+
+                        <div id="subjects-admin-content">
+              <!-- Top Banner Card with Inner Sub-Navigation -->
+              <div class="admin-card">
+                <div class="admin-card-header" style="align-items: flex-start; margin-bottom: 1rem;">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                      <span style="font-size: 0.7rem; background: var(--academic-accent); color: #fff; padding: 0.15rem 0.5rem; border-radius: 3px; font-weight: 700; letter-spacing: 0.05em;">RESTRICTED ACCESS</span>
+                      <span style="font-size: 0.78rem; font-weight: 700; color: var(--academic-accent); text-transform: uppercase;">Controller of Examinations (COE) Only</span>
+                    </div>
+                    <h2 class="admin-card-title">Subject Code &amp; Curriculum Management</h2>
+                    <p class="admin-card-sub">
+                      Manage course codes across the autonomous curriculum. Modify existing subject codes with automated mark cascading, provision brand-new subject codes in the dedicated portal, or inspect the master catalog.
+                    </p>
+                  </div>
+                  <div class="admin-user-pill" style="border-color: var(--academic-accent); color: var(--academic-accent); font-weight: 600;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>COE Admin Level</span>
+                  </div>
+                </div>
+
+                <!-- Inner Sub-Portal Navigation: Inside Subject Code Portal -->
+                <div class="portal-subnav-bar">
+                  <button type="button" id="subnav-btn-change" class="portal-subnav-btn active">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <span>Change Existing Subject Code</span>
+                  </button>
+
+                  <button type="button" id="subnav-btn-new" class="portal-subnav-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    <span>New Subject Code Portal</span>
+                    <span style="font-size: 0.65rem; background: var(--academic-accent-light); color: var(--academic-accent); padding: 0.12rem 0.45rem; border-radius: 3px; font-weight: 700;">PROVISIONING</span>
+                  </button>
+
+                  <button type="button" id="subnav-btn-catalog" class="portal-subnav-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Curriculum Master Catalog</span>
+                  </button>
+                </div>
+
+                <!-- SUB-VIEW 1: CHANGE / REMAP EXISTING SUBJECT CODE -->
+                <div id="subview-change-code" class="subportal-pane">
+                  <div style="border: 1px solid var(--academic-border); border-radius: 4px; padding: 1.5rem; background: var(--academic-surface);">
+                    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+                      <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--academic-accent-light); color: var(--academic-accent); display: flex; align-items: center; justify-content: center;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                      </div>
+                      <div>
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--academic-ink); margin: 0;">Change Existing Subject Code &amp; Cascade Updates</h3>
+                        <span style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Automated relational re-indexing across all student marks and grade ledgers</span>
+                      </div>
+                    </div>
+
+                    <div style="background: var(--academic-accent-light); border-left: 3px solid var(--academic-accent); padding: 0.75rem 1rem; border-radius: 2px; margin: 0.85rem 0 1.25rem 0; font-size: 0.82rem; color: var(--academic-ink);">
+                      <strong>Autonomous Integrity Guarantee:</strong> Renaming a subject code (e.g. from <code>CS301</code> to <code>CA301</code>) will automatically re-link all student mark history and transcript ledgers stored in the SQLite database.
+                    </div>
+
+                    <!-- Live Feedback Banner for Subject Changes -->
+                    <div id="change-code-feedback" class="upload-report-banner hidden" style="border-left: 4px solid var(--academic-accent); padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.65rem;">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--academic-accent)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                          <span id="change-code-feedback-text" style="font-weight: 700; color: var(--academic-ink); font-size: 0.92rem;">Subject code updated successfully!</span>
+                        </div>
+                        <button type="button" id="btn-view-ledger-after-code-change" class="btn-table-action" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                          View Updated Ledger &rarr;
+                        </button>
+                      </div>
+                    </div>
+
+                    <form id="form-change-subject-code" noValidate>
+                      <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                          <div class="form-field-unit">
+                            <label for="select-change-old-code">Current Subject Code to Change <span style="color: var(--error);">*</span></label>
+                            <select id="select-change-old-code" class="selector-dropdown" required style="height: 42px;">
+                              <option value="" disabled selected>-- Select Current Subject Code --</option>
+                            </select>
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="input-change-new-code">New Subject Code <span style="color: var(--error);">*</span></label>
+                            <input type="text" id="input-change-new-code" placeholder="e.g. CA401 or CS301A" required style="height: 42px; font-family: var(--academic-font-mono); font-weight: 700; text-transform: uppercase;">
+                          </div>
+                        </div>
+
+                        <div class="form-field-unit">
+                          <label for="input-change-new-name">Updated Course Title (Optional)</label>
+                          <input type="text" id="input-change-new-name" placeholder="Course Title" style="height: 40px;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                          <div class="form-field-unit">
+                            <label for="input-change-credits">Curriculum Credits</label>
+                            <input type="number" id="input-change-credits" min="1" max="10" placeholder="4" style="height: 40px;">
+                          </div>
+                          <div class="form-field-unit">
+                            <label for="display-change-current-records">Linked Student Records</label>
+                            <input type="text" id="display-change-current-records" value="0 records" readonly style="height: 40px; background: var(--academic-accent-light); font-weight: 700; color: var(--academic-accent);">
+                          </div>
+                        </div>
+
+                        <button type="submit" id="btn-submit-change-code" class="btn-academic-solid" style="height: 44px; margin-top: 0.5rem; justify-content: center; font-size: 0.92rem;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg>
+                          <span>Apply Code Change &amp; Cascade to All Student Marks</span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- SUB-VIEW 2: DEDICATED NEW SUBJECT CODE PORTAL -->
+                <div id="subview-new-subject" class="subportal-pane hidden">
+                  <div style="border: 1px solid var(--academic-border); border-radius: 4px; padding: 1.5rem; background: var(--academic-surface);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                      <div style="display: flex; align-items: center; gap: 0.65rem;">
+                        <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--academic-accent-light); color: var(--academic-accent); display: flex; align-items: center; justify-content: center;">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </div>
+                        <div>
+                          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--academic-ink); margin: 0;">New Subject Code Provisioning Portal</h3>
+                          <span style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Register and provision brand-new course codes into the college curriculum</span>
+                        </div>
+                      </div>
+                      <span class="admin-user-pill" style="border-color: var(--academic-accent); color: var(--academic-accent); font-weight: 700; font-size: 0.76rem;">
+                        Autonomous Scheme 2024-2026
+                      </span>
+                    </div>
+
+                    <p style="font-size: 0.82rem; color: var(--academic-ink-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
+                      Introduce new theory papers, practical laboratories, non-major electives, or value-added course codes. Once registered, faculty can immediately enter marks or ingest bulk class spreadsheets for this subject code.
+                    </p>
+
+                    <!-- Feedback Banner for New Subject Creation -->
+                    <div id="new-subject-feedback" class="upload-report-banner hidden" style="border-left: 4px solid var(--academic-accent); padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.65rem;">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--academic-accent)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                          <span id="new-subject-feedback-text" style="font-weight: 700; color: var(--academic-ink); font-size: 0.92rem;">New subject code created successfully!</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                          <button type="button" id="btn-view-catalog-after-create" class="btn-table-action" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                            View in Catalog &rarr;
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <form id="form-add-subject" noValidate>
+                      <div style="display: flex; flex-direction: column; gap: 1.15rem;">
+                        <!-- Row 1: Code and Semester -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                          <div class="form-field-unit">
+                            <label for="input-add-subcode">New Subject Code <span style="color: var(--error);">*</span></label>
+                            <input type="text" id="input-add-subcode" placeholder="e.g. CA406 or CS501" required style="height: 42px; font-family: var(--academic-font-mono); font-weight: 700; text-transform: uppercase;">
+                            <span style="font-size: 0.72rem; color: var(--academic-ink-muted); margin-top: 0.25rem;">Unique Autonomous Paper Identifier</span>
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="select-add-subsem">Target Curriculum Semester <span style="color: var(--error);">*</span></label>
+                            <select id="select-add-subsem" class="selector-dropdown" required style="height: 42px;">
+                              <option value="Semester IV" selected>Semester IV</option>
+                              <option value="Semester III">Semester III</option>
+                              <option value="Semester II">Semester II</option>
+                              <option value="Semester I">Semester I</option>
+                              <option value="Semester V">Semester V</option>
+                              <option value="Semester VI">Semester VI</option>
+                            </select>
+                            <span style="font-size: 0.72rem; color: var(--academic-ink-muted); margin-top: 0.25rem;">Program semester offering</span>
+                          </div>
+                        </div>
+
+                        <!-- Row 2: Course Title and Department -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                          <div class="form-field-unit">
+                            <label for="input-add-subname">Official Course Title <span style="color: var(--error);">*</span></label>
+                            <input type="text" id="input-add-subname" placeholder="e.g. Cloud Computing &amp; Virtualization" required style="height: 42px;">
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="select-add-dept">Department / Discipline Code <span style="color: var(--error);">*</span></label>
+                            <select id="select-add-dept" class="selector-dropdown" style="height: 42px;">
+                              <option value="CA" selected>Computer Applications (CA)</option>
+                              <option value="CS">Computer Science (CS)</option>
+                              <option value="IT">Information Technology (IT)</option>
+                              <option value="COMMERCE">Commerce &amp; Management</option>
+                              <option value="SCIENCE">Science &amp; Mathematics</option>
+                              <option value="LANG">Language &amp; English</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <!-- Row 3: Course Type and Credits -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                          <div class="form-field-unit">
+                            <label for="select-add-coursetype">Course Classification</label>
+                            <select id="select-add-coursetype" class="selector-dropdown" style="height: 40px;">
+                              <option value="Core Theory" selected>Core Theory Paper</option>
+                              <option value="Core Practical">Core Practical / Laboratory</option>
+                              <option value="Allied Course">Allied Course</option>
+                              <option value="Non-Major Elective">Non-Major Elective (NME)</option>
+                              <option value="Skill-Based Elective">Skill-Based Elective (SBE)</option>
+                              <option value="Value Added">Value-Added Course</option>
+                            </select>
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="input-add-credits">Curriculum Credits <span style="color: var(--error);">*</span></label>
+                            <input type="number" id="input-add-credits" value="4" min="1" max="10" required style="height: 40px;">
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="input-add-maxint">Internal Max Mark</label>
+                            <input type="number" id="input-add-maxint" value="25" min="10" max="50" required style="height: 40px;">
+                          </div>
+
+                          <div class="form-field-unit">
+                            <label for="input-add-maxext">External Max Mark</label>
+                            <input type="number" id="input-add-maxext" value="75" min="25" max="100" required style="height: 40px;">
+                          </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.5rem; flex-wrap: wrap;">
+                          <button type="submit" id="btn-submit-add-subject" class="btn-academic-solid" style="height: 44px; padding: 0 1.75rem;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span>Create &amp; Provision New Subject Code</span>
+                          </button>
+
+                          <button type="reset" id="btn-reset-add-subject" class="btn-academic-outline" style="height: 44px; padding: 0 1.25rem;">
+                            Reset Form
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- SUB-VIEW 3: CURRICULUM MASTER CATALOG & REGISTRY -->
+                <div id="subview-catalog" class="subportal-pane hidden">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <div>
+                      <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--academic-ink); margin: 0;">Autonomous Curriculum Code Registry</h3>
+                      <span style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Master catalog of paper codes, credit values, and active student examination ledgers</span>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                      <button type="button" id="btn-quick-new-subject" class="btn-academic-solid" style="height: 36px; padding: 0 1rem; font-size: 0.8rem;">
+                        + New Subject Code
+                      </button>
+                      <button type="button" id="btn-refresh-subjects" class="btn-table-action" style="padding: 0.45rem 0.85rem; height: 36px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -2px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        Refresh
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Catalog Search and Filter Toolbar -->
+                  <div class="ledger-toolbar">
+                    <div class="ledger-search-box">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--academic-ink-muted)" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                      <input type="text" id="subjects-search-input" placeholder="Search by Subject Code or Course Name...">
+                    </div>
+
+                    <div style="display: flex; gap: 0.65rem; align-items: center;">
+                      <select id="subjects-filter-sem" class="selector-dropdown" style="padding: 0.35rem 0.65rem; height: 34px;">
+                        <option value="" selected>All Semesters</option>
+                        <option value="Semester IV">Semester IV</option>
+                        <option value="Semester III">Semester III</option>
+                        <option value="Semester II">Semester II</option>
+                        <option value="Semester I">Semester I</option>
+                        <option value="Semester V">Semester V</option>
+                        <option value="Semester VI">Semester VI</option>
+                      </select>
+
+                      <span id="subjects-total-count" style="font-size: 0.78rem; font-weight: 700; color: var(--academic-ink-muted);">0 subjects</span>
+                    </div>
+                  </div>
+
+                  <!-- Table -->
+                  <div class="statement-table-wrapper" style="max-height: 480px; overflow-y: auto;">
+                    <table class="minimal-marks-table">
+                      <thead>
+                        <tr>
+                          <th>Subject Code</th>
+                          <th>Course Title</th>
+                          <th>Semester</th>
+                          <th style="text-align: center;">Credits</th>
+                          <th style="text-align: center;">Max Marks (In / Ex)</th>
+                          <th style="text-align: center;">Student Records</th>
+                          <th style="text-align: center;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="subjects-table-tbody">
+                        <tr>
+                          <td colspan="7" style="text-align: center; padding: 2rem; color: var(--academic-ink-muted);">
+                            Loading curriculum subjects from database...
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Institutional Footer -->
+    <footer id="main-portal-footer" class="portal-footer">
+      <div>
+        <strong>J.J. College of Arts and Science (Autonomous)</strong> &bull; Bharathidasan University Affiliated
+      </div>
+      <div>
+        Official Office of the Controller of Examinations (COE) Student Academic Gateway &bull; Autonomous Regulations
+      </div>
+    </footer>
+  </div>
+
+  <!-- ====================================================================
+       MODALS & DRAWERS
+       ==================================================================== -->
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title">Student Sign-In Assistance</h2>
+        <button type="button" id="btn-close-help" class="modal-close-btn" aria-label="Close help modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <h4 style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+            1. Where do I find my Register Number?
+          </h4>
+          <p>
+            Your official register number is printed on your <strong>College Smart Identity Card</strong>, previous semester grade sheets, and Admission Allotment order (e.g. <code>P26CA2029</code>).
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+            2. Date of Birth Format
+          </h4>
+          <p>
+            Enter your date of birth in <code>DD / MM / YYYY</code> format matching your official Matriculation / Higher Secondary Certificate submitted during college admission.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+            3. Still having trouble?
+          </h4>
+          <p>
+            If your credentials do not match or your record is withheld, please reach out to the College ERP Helpdesk or the Controller of Examinations (COE) desk.
+          </p>
+        </div>
+
+        <div style="padding-top: 0.5rem; display: flex; gap: 0.75rem;">
+          <button
+            type="button"
+            id="btn-help-goto-support"
+            class="btn-primary"
+            style="margin-top: 0;"
+          >
+            Contact College Support
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- College Support Contact Modal -->
+  <div id="support-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title">College Support Desk</h2>
+        <button type="button" id="btn-close-support" class="modal-close-btn" aria-label="Close support modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <div style="background: var(--bg-tertiary); padding: 0.85rem; border-radius: var(--radius-md);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              COE Student Support Helpline
+            </div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 0.2rem;">
+              +91 (04322) 265565 / 265566
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Mon &ndash; Sat: 9:00 AM to 5:00 PM IST
+            </div>
+          </div>
+
+          <div style="background: var(--bg-tertiary); padding: 0.85rem; border-radius: var(--radius-md);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              Official COE Email
+            </div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-top: 0.2rem;">
+              coe@jjcollege.edu.in
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">
+              Quote your Register Number and Admission Year in all email inquiries.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-tertiary); padding: 0.85rem; border-radius: var(--radius-md);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              Physical Office
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;">
+              Office of the Controller of Examinations, Ground Floor, Administrative Block, J.J. College of Arts and Science (Autonomous), Pudukkottai - 622 422.
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          id="btn-close-support-footer"
+          class="btn-primary"
+          style="margin-top: 0.5rem;"
+        >
+          Close Support Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Details Modal -->
+  <div id="announcement-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span id="modal-ann-badge" class="announcement-badge amber">Circular</span>
+        <button type="button" id="btn-close-ann-modal" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <h3 id="modal-ann-title" style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Notice Title</h3>
+        <p id="modal-ann-date" style="font-size: 0.78rem; color: var(--text-muted);">Published on --</p>
+        <p id="modal-ann-desc" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">Notice Description</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin & Faculty Authentication Modal -->
+  <div id="admin-login-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--academic-accent-light); color: var(--academic-accent); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <h2 class="modal-title" style="font-size: 1.1rem;">COE &amp; Faculty Authentication</h2>
+        </div>
+        <button type="button" id="btn-close-admin-modal" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: var(--academic-ink-secondary);">
+          Secure access portal for Controller of Examinations (COE) staff and department faculty to manage class grade records.
+        </p>
+
+        <!-- Admin Login Error Banner -->
+        <div id="admin-login-error" class="portal-error-banner hidden" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span id="admin-login-error-text">Invalid username or password.</span>
+        </div>
+
+        <form id="admin-login-form" noValidate>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="form-field-unit">
+              <label for="admin-username">Username</label>
+              <input type="text" id="admin-username" placeholder="e.g. admin or faculty" required autocomplete="username">
+            </div>
+
+            <div class="form-field-unit">
+              <label for="admin-password">Password (Hashed with bcrypt)</label>
+              <input type="password" id="admin-password" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+
+            <!-- Quick Demo Credential Pills -->
+            <div style="margin-top: 0.25rem;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--academic-ink-muted); text-transform: uppercase;">Quick Test Accounts:</span>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                <button type="button" id="btn-quick-admin" class="btn-table-action" style="font-size: 0.72rem;">
+                  Admin: <strong>admin</strong> / <strong>admin@123</strong>
+                </button>
+                <button type="button" id="btn-quick-faculty" class="btn-table-action" style="font-size: 0.72rem;">
+                  Faculty: <strong>faculty</strong> / <strong>faculty@123</strong>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-admin-login-submit" class="btn-academic-solid" style="width: 100%; height: 44px; margin-top: 0.65rem; justify-content: center;">
+              <span id="btn-admin-submit-text">Sign In to Admin Portal</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Statement Mark Update Modal -->
+  <div id="statement-quick-update-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog" style="max-width: 680px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--academic-accent-light); color: var(--academic-accent); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </div>
+          <div>
+            <h2 class="modal-title" style="font-size: 1.1rem;">Update Statement Marks</h2>
+            <span id="quick-update-subtitle" style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Reg No: -- &bull; Semester: --</span>
+          </div>
+        </div>
+        <button type="button" id="btn-close-quick-update-modal" class="modal-close-btn" aria-label="Close update modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 0.75rem;">
+        <p style="font-size: 0.82rem; color: var(--academic-ink-secondary); margin-bottom: 0.75rem;">
+          Edit internal (max 25) and external (max 75) marks. Changes are immediately saved to the examination database and recomputed live on the statement.
+        </p>
+
+        <div class="statement-table-wrapper" style="max-height: 320px; overflow-y: auto; margin-bottom: 1rem;">
+          <table class="minimal-marks-table" style="font-size: 0.84rem;">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Subject Name</th>
+                <th style="width: 100px; text-align: center;">Internal (25)</th>
+                <th style="width: 100px; text-align: center;">External (75)</th>
+                <th style="width: 75px; text-align: right;">Total</th>
+                <th style="width: 75px; text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="quick-update-marks-tbody">
+              <!-- Dynamically populated from active statement subjects -->
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center; border-top: 1px solid var(--academic-border); padding-top: 0.75rem;">
+          <button type="button" id="btn-cancel-quick-update" class="btn-academic-outline" style="height: 38px; padding: 0 1.25rem;">
+            Cancel
+          </button>
+          <button type="button" id="btn-save-quick-update" class="btn-academic-solid" style="height: 38px; padding: 0 1.5rem;">
+            Save &amp; Update Statement
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Database Marks Ledger: Edit Single Mark Record Modal -->
+  <div id="modal-edit-ledger-mark" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="edit-ledger-title">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--academic-accent-light); color: var(--academic-accent); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </div>
+          <div>
+            <h2 id="edit-ledger-title" class="modal-title" style="font-size: 1.1rem;">Edit Database Mark Record</h2>
+            <span id="edit-ledger-subtitle" style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Database Marks Ledger &bull; Real-time Update</span>
+          </div>
+        </div>
+        <button type="button" id="btn-close-edit-ledger-modal" class="modal-close-btn" aria-label="Close edit modal">&times;</button>
+      </div>
+
+      <form id="form-edit-ledger-mark" class="modal-body" style="padding-top: 0.75rem;">
+        <input type="hidden" id="edit-ledger-row-id">
+        <input type="hidden" id="edit-ledger-row-sem">
+        <input type="hidden" id="edit-ledger-row-year">
+        <input type="hidden" id="edit-ledger-row-exam-type">
+
+        <div style="background: #F8F7F3; border: 1px solid var(--academic-warm-grey); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--academic-ink-muted);">Register No</span>
+            <span id="edit-ledger-regno" style="font-weight: 700; font-family: var(--academic-font-mono);">--</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--academic-ink-muted);">Student Name</span>
+            <span id="edit-ledger-student-name" style="font-weight: 600;">--</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--academic-ink-muted);">Subject</span>
+            <span id="edit-ledger-subject" style="font-weight: 600; text-align: right; max-width: 300px;">--</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--academic-ink-muted);">Semester / Exam</span>
+            <span id="edit-ledger-sem-exam" style="font-size: 0.82rem; color: var(--academic-ink-secondary);">--</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="edit-ledger-internal" class="form-label">
+              <span>Internal Mark (Max 25)<span class="label-required">*</span></span>
+            </label>
+            <input type="number" id="edit-ledger-internal" min="0" max="25" step="0.5" class="form-input" required style="font-weight: 700; font-size: 1.05rem;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="edit-ledger-external" class="form-label">
+              <span>External Mark (Max 75)<span class="label-required">*</span></span>
+            </label>
+            <input type="number" id="edit-ledger-external" min="0" max="75" step="0.5" class="form-input" required style="font-weight: 700; font-size: 1.05rem;">
+          </div>
+        </div>
+
+        <!-- Live Evaluation Feedback Preview -->
+        <div style="background: white; border: 1px solid var(--academic-warm-grey); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--academic-ink-muted); display: block; margin-bottom: 0.5rem; font-weight: 700;">Evaluation Preview</span>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 0.5rem;">
+            <div>
+              <span style="font-size: 0.7rem; color: var(--academic-ink-muted); display: block;">Total (100)</span>
+              <strong id="edit-ledger-calc-total" style="font-size: 1.15rem; color: var(--academic-ink);">0</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.7rem; color: var(--academic-ink-muted); display: block;">Grade Point</span>
+              <strong id="edit-ledger-calc-gp" style="font-size: 1.15rem; color: var(--academic-ink);">0</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.7rem; color: var(--academic-ink-muted); display: block;">Letter Grade</span>
+              <strong id="edit-ledger-calc-grade" style="font-size: 1.15rem; color: var(--academic-accent);">RA</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.7rem; color: var(--academic-ink-muted); display: block;">Status</span>
+              <span id="edit-ledger-calc-result" class="tag-reappear" style="display: inline-block; margin-top: 0.15rem;">RA</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center; border-top: 1px solid var(--academic-border); padding-top: 0.75rem;">
+          <button type="button" id="btn-cancel-edit-ledger" class="btn-academic-outline" style="height: 38px; padding: 0 1.25rem;">
+            Cancel
+          </button>
+          <button type="submit" id="btn-save-edit-ledger" class="btn-academic-solid" style="height: 38px; padding: 0 1.5rem;">
+            Save &amp; Update Database
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Stack -->
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- JavaScript Modules: Standard, Fast, Zero Build Step, Zero Babel -->
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
