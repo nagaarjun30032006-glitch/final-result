@@ -11,6 +11,7 @@ import bcrypt
 import jwt
 from typing import Optional, Dict, Any, Tuple
 from database import get_connection
+from supabase_client import supabase_client
 
 JWT_SECRET = os.environ.get("COLLEGE_PORTAL_JWT_SECRET", "jj_college_autonomous_secure_key_2026")
 JWT_ALGORITHM = "HS256"
@@ -54,6 +55,21 @@ def admin_authenticate(username: str, plain_password: str) -> Optional[Dict[str,
         return None
 
     clean_user = username.strip().lower()
+
+    if supabase_client.is_configured():
+        supa_user = supabase_client.get_user_by_username(clean_user)
+        if supa_user and supa_user.get("role") in ('admin', 'faculty'):
+            if verify_password(plain_password, supa_user.get("password_hash", "")):
+                user_data = {
+                    "user_id": supa_user.get("id"),
+                    "username": supa_user.get("username"),
+                    "role": supa_user.get("role"),
+                    "name": supa_user.get("name"),
+                    "email": supa_user.get("email")
+                }
+                user_data["token"] = create_jwt_token(user_data)
+                return user_data
+
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -97,6 +113,22 @@ def verify_student_credentials(register_number: str, dob: str) -> Tuple[Optional
 
     clean_reg = register_number.strip().upper()
     clean_dob = dob.strip().replace(" ", "")
+
+    if supabase_client.is_configured():
+        supa_st = supabase_client.get_student(clean_reg)
+        if supa_st:
+            stored_dob = str(supa_st.get("dob") or "").replace(" ", "")
+            if stored_dob != clean_dob:
+                return None, "Date of birth does not match the entered register number."
+            st_data = dict(supa_st)
+            user_payload = {
+                "username": st_data.get("register_number"),
+                "role": "student",
+                "name": st_data.get("name"),
+                "department": st_data.get("department")
+            }
+            st_data["token"] = create_jwt_token(user_payload)
+            return st_data, None
 
     conn = get_connection()
     cursor = conn.cursor()

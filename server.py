@@ -125,7 +125,7 @@ if __name__ == "__main__":
                 print(f"  🗄️   Database: {os.path.join(BACKEND_DIR, 'college_portal.db')}")
                 print(f"  🔐  Admin Login: admin / admin@123")
                 print(f"  👨‍🏫  Faculty Login: faculty / faculty@123")
-                print(f"  🎓  Student Login: P26CA2029 / 15/08/2005")
+                print(f"  🎓  Student Login: P26CA2029 / 30/03/2006")
                 print("================================================================")
                 print("Press Ctrl+C to stop the server.")
                 httpd.serve_forever()

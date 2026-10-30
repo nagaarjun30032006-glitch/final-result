@@ -77,3 +77,4 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Max-Age', '86400')
         self.send_header('Content-Length', '0')
         self.end_headers()
+

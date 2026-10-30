@@ -2247,3 +2247,28 @@ html, body {
 }
 
 
+
+
+/* Cloud Database Status Pill & Indicator */
+.cloud-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #9ca3af;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.cloud-status-dot.online {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.cloud-status-dot.offline {
+  background: #f59e0b;
+}
+
+.cloud-status-dot.error {
+  background: #ef4444;
+}

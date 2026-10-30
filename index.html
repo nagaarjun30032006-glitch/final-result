@@ -569,6 +569,16 @@
 
               <button
                 type="button"
+                id="btn-open-supabase-modal"
+                class="header-link-btn"
+                title="Supabase Cloud Database Status &amp; Configuration"
+              >
+                <span id="supabase-status-dot" class="cloud-status-dot offline"></span>
+                <span id="supabase-status-label">Database: Checking...</span>
+              </button>
+
+              <button
+                type="button"
                 id="btn-admin-theme"
                 class="header-link-btn"
                 aria-label="Toggle theme"
@@ -1909,6 +1919,86 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+    <!-- Supabase Cloud Database Configuration Modal -->
+  <div id="supabase-config-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="supabase-modal-title">
+    <div class="modal-dialog" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem;">
+            ⚡
+          </div>
+          <div>
+            <h2 id="supabase-modal-title" class="modal-title" style="font-size: 1.1rem;">Supabase Cloud Database Connection</h2>
+            <span style="font-size: 0.78rem; color: var(--academic-ink-secondary);">Persistent PostgreSQL Cloud Storage for Vercel &amp; Production</span>
+          </div>
+        </div>
+        <button type="button" id="btn-close-supabase-modal" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 0.75rem;">
+        <!-- Live status summary -->
+        <div id="supabase-live-status-card" style="background: #F8F7F3; border: 1px solid var(--academic-warm-grey); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--academic-ink-muted); font-weight: 700;">Active Storage Engine</div>
+              <div id="supabase-active-engine" style="font-size: 0.95rem; font-weight: 700; color: var(--academic-ink); margin-top: 2px;">Local SQLite (Ephemeral on Vercel)</div>
+            </div>
+            <span id="supabase-modal-badge" class="badge" style="padding: 0.35rem 0.65rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: #fef3c7; color: #92400e;">Local Only</span>
+          </div>
+          <div id="supabase-status-detail" style="font-size: 0.76rem; color: var(--academic-ink-secondary); margin-top: 0.5rem;">
+            Connect Supabase to retain student personal details, marks, and subjects across serverless restarts and Vercel deployments.
+          </div>
+        </div>
+
+        <form id="form-supabase-config" noValidate>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="form-field-unit">
+              <label for="cfg-supabase-url" style="display: flex; justify-content: space-between;">
+                <span>Supabase Project URL</span>
+                <span style="font-size: 0.72rem; color: var(--academic-ink-muted);">From Supabase Dashboard &rarr; Settings &rarr; API</span>
+              </label>
+              <input type="url" id="cfg-supabase-url" placeholder="https://xyzcompany.supabase.co" autocomplete="off" style="font-family: var(--academic-font-mono); font-size: 0.82rem;">
+            </div>
+
+            <div class="form-field-unit">
+              <label for="cfg-supabase-key" style="display: flex; justify-content: space-between;">
+                <span>Supabase API Key (Anon / Service Role)</span>
+                <span style="font-size: 0.72rem; color: var(--academic-ink-muted);">Public anon or secret service_role key</span>
+              </label>
+              <input type="password" id="cfg-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" style="font-family: var(--academic-font-mono); font-size: 0.82rem;">
+            </div>
+
+            <!-- Setup Instructions Box -->
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 0.75rem; font-size: 0.78rem; color: #1e40af; line-height: 1.45;">
+              <strong>Database Setup Steps:</strong>
+              <br>1. Open your Supabase Dashboard &rarr; <strong>SQL Editor</strong>.
+              <br>2. Copy &amp; run all queries in <code>supabase_schema.sql</code> (creates users, students, subjects, &amp; marks tables).
+              <br>3. Copy Project URL and API Key from Project Settings &rarr; API, paste above, and click <strong>Test Connection</strong>.
+            </div>
+
+            <div id="supabase-test-feedback" class="portal-error-banner hidden" style="margin: 0; padding: 0.5rem 0.75rem; font-size: 0.78rem;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--academic-border); padding-top: 0.85rem; margin-top: 0.35rem;">
+              <button type="button" id="btn-test-supabase" class="btn-academic-outline" style="height: 38px; padding: 0 1rem; font-size: 0.82rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="margin-right: 4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Test Connection
+              </button>
+
+              <div style="display: flex; gap: 0.5rem;">
+                <button type="button" id="btn-cancel-supabase" class="btn-academic-outline" style="height: 38px; padding: 0 1rem; font-size: 0.82rem;">
+                  Cancel
+                </button>
+                <button type="submit" id="btn-save-supabase" class="btn-academic-solid" style="height: 38px; padding: 0 1.25rem; font-size: 0.82rem; background: #10b981; border-color: #059669;">
+                  Save &amp; Connect Cloud
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 

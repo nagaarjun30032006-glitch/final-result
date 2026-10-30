@@ -1563,6 +1563,205 @@
   // ==============================================================================
   // 6. PHASE 2: ADMIN & FACULTY AUTHENTICATION (BCRYPT + JWT)
   // ==============================================================================
+  
+  // ==============================================================================
+  // SUPABASE CLOUD DATABASE CONNECTION & STATUS
+  // ==============================================================================
+  const btnOpenSupabaseModal = document.getElementById('btn-open-supabase-modal');
+  const supabaseConfigModal = document.getElementById('supabase-config-modal');
+  const btnCloseSupabaseModal = document.getElementById('btn-close-supabase-modal');
+  const btnCancelSupabase = document.getElementById('btn-cancel-supabase');
+  const formSupabaseConfig = document.getElementById('form-supabase-config');
+  const cfgSupabaseUrl = document.getElementById('cfg-supabase-url');
+  const cfgSupabaseKey = document.getElementById('cfg-supabase-key');
+  const btnTestSupabase = document.getElementById('btn-test-supabase');
+  const supabaseTestFeedback = document.getElementById('supabase-test-feedback');
+  const supabaseStatusDot = document.getElementById('supabase-status-dot');
+  const supabaseStatusLabel = document.getElementById('supabase-status-label');
+  const supabaseActiveEngine = document.getElementById('supabase-active-engine');
+  const supabaseModalBadge = document.getElementById('supabase-modal-badge');
+  const supabaseStatusDetail = document.getElementById('supabase-status-detail');
+
+  async function checkDatabaseStatus() {
+    try {
+      const resp = await apiFetch('/api/database/status');
+      if (!resp || !resp.ok) return;
+      const data = await resp.json();
+      if (!data || !data.success) return;
+
+      const { provider, configured, status, counts, url } = data;
+
+      if (supabaseStatusDot && supabaseStatusLabel) {
+        if (provider === 'supabase' && status === 'connected') {
+          supabaseStatusDot.className = 'cloud-status-dot online';
+          supabaseStatusLabel.textContent = 'Supabase: Cloud';
+        } else if (provider === 'supabase' && status !== 'connected') {
+          supabaseStatusDot.className = 'cloud-status-dot error';
+          supabaseStatusLabel.textContent = 'Supabase: Offline';
+        } else {
+          supabaseStatusDot.className = 'cloud-status-dot offline';
+          supabaseStatusLabel.textContent = 'Database: SQLite';
+        }
+      }
+
+      if (supabaseActiveEngine && supabaseModalBadge && supabaseStatusDetail) {
+        if (provider === 'supabase' && status === 'connected') {
+          supabaseActiveEngine.textContent = 'Supabase Cloud PostgreSQL';
+          supabaseModalBadge.textContent = 'Cloud Connected';
+          supabaseModalBadge.style.background = '#d1fae5';
+          supabaseModalBadge.style.color = '#065f46';
+          const cntStr = counts ? ` (Students: ${counts.students || 0}, Marks: ${counts.marks || 0})` : '';
+          supabaseStatusDetail.textContent = `Connected to live cloud project: ${url}${cntStr}. Permanent across Vercel deployments.`;
+        } else if (provider === 'supabase' && status !== 'connected') {
+          supabaseActiveEngine.textContent = 'Supabase (Offline / Auth Failed)';
+          supabaseModalBadge.textContent = 'Connection Error';
+          supabaseModalBadge.style.background = '#fee2e2';
+          supabaseModalBadge.style.color = '#991b1b';
+          supabaseStatusDetail.textContent = data.message || 'Unable to connect to Supabase. Check Project URL and API Key.';
+        } else {
+          supabaseActiveEngine.textContent = 'Local SQLite (Ephemeral on Vercel)';
+          supabaseModalBadge.textContent = 'Local Mode';
+          supabaseModalBadge.style.background = '#fef3c7';
+          supabaseModalBadge.style.color = '#92400e';
+          supabaseStatusDetail.textContent = 'Operating on local database. For persistent data on Vercel serverless, enter your Supabase credentials above.';
+        }
+      }
+
+      // Prefill URL input if saved and input is currently blank
+      if (cfgSupabaseUrl && !cfgSupabaseUrl.value && url) {
+        cfgSupabaseUrl.value = url;
+      }
+    } catch (err) {
+      console.warn('Database status check failed:', err);
+    }
+  }
+
+  function initSupabaseCloud() {
+    if (btnOpenSupabaseModal && supabaseConfigModal) {
+      btnOpenSupabaseModal.addEventListener('click', () => {
+        if (supabaseTestFeedback) supabaseTestFeedback.classList.add('hidden');
+        supabaseConfigModal.classList.remove('hidden');
+        checkDatabaseStatus();
+      });
+    }
+
+    if (btnCloseSupabaseModal && supabaseConfigModal) {
+      btnCloseSupabaseModal.addEventListener('click', () => {
+        supabaseConfigModal.classList.add('hidden');
+      });
+    }
+
+    if (btnCancelSupabase && supabaseConfigModal) {
+      btnCancelSupabase.addEventListener('click', () => {
+        supabaseConfigModal.classList.add('hidden');
+      });
+    }
+
+    if (supabaseConfigModal) {
+      supabaseConfigModal.addEventListener('click', (e) => {
+        if (e.target === supabaseConfigModal) supabaseConfigModal.classList.add('hidden');
+      });
+    }
+
+    if (btnTestSupabase) {
+      btnTestSupabase.addEventListener('click', async () => {
+        const url = cfgSupabaseUrl ? cfgSupabaseUrl.value.trim() : '';
+        const key = cfgSupabaseKey ? cfgSupabaseKey.value.trim() : '';
+
+        if (!url || !key) {
+          if (supabaseTestFeedback) {
+            supabaseTestFeedback.className = 'portal-error-banner';
+            supabaseTestFeedback.innerHTML = '<span>Please enter both your Supabase Project URL and API Key to test.</span>';
+            supabaseTestFeedback.classList.remove('hidden');
+          }
+          return;
+        }
+
+        btnTestSupabase.disabled = true;
+        const origText = btnTestSupabase.innerHTML;
+        btnTestSupabase.innerHTML = 'Testing...';
+
+        try {
+          const resp = await apiFetch('/api/database/test-connection', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, key })
+          });
+          const data = await resp.json();
+
+          if (supabaseTestFeedback) {
+            if (resp.ok && data.success) {
+              supabaseTestFeedback.className = 'portal-feedback-banner';
+              supabaseTestFeedback.style.background = '#d1fae5';
+              supabaseTestFeedback.style.border = '1px solid #6ee7b7';
+              supabaseTestFeedback.style.color = '#065f46';
+              supabaseTestFeedback.innerHTML = `<span><strong>Connection Successful!</strong> Connected to Supabase PostgREST (${data.tables ? data.tables.join(', ') : 'all tables verified'}).</span>`;
+            } else {
+              supabaseTestFeedback.className = 'portal-error-banner';
+              supabaseTestFeedback.style.background = '#fee2e2';
+              supabaseTestFeedback.style.border = '1px solid #fca5a5';
+              supabaseTestFeedback.style.color = '#991b1b';
+              supabaseTestFeedback.innerHTML = `<span><strong>Connection Failed:</strong> ${data.message || 'Could not verify database credentials.'}</span>`;
+            }
+            supabaseTestFeedback.classList.remove('hidden');
+          }
+        } catch (err) {
+          if (supabaseTestFeedback) {
+            supabaseTestFeedback.className = 'portal-error-banner';
+            supabaseTestFeedback.style.background = '#fee2e2';
+            supabaseTestFeedback.style.border = '1px solid #fca5a5';
+            supabaseTestFeedback.style.color = '#991b1b';
+            supabaseTestFeedback.innerHTML = `<span><strong>Network Error:</strong> ${err.message || 'Server unreachable.'}</span>`;
+            supabaseTestFeedback.classList.remove('hidden');
+          }
+        } finally {
+          btnTestSupabase.disabled = false;
+          btnTestSupabase.innerHTML = origText;
+        }
+      });
+    }
+
+    if (formSupabaseConfig) {
+      formSupabaseConfig.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const url = cfgSupabaseUrl ? cfgSupabaseUrl.value.trim() : '';
+        const key = cfgSupabaseKey ? cfgSupabaseKey.value.trim() : '';
+
+        if (!url || !key) {
+          showToast('Please enter both Project URL and API Key.', 'warning');
+          return;
+        }
+
+        const btnSave = document.getElementById('btn-save-supabase');
+        if (btnSave) btnSave.disabled = true;
+
+        try {
+          const resp = await apiFetch('/api/database/configure', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, key })
+          });
+          const data = await resp.json();
+
+          if (resp.ok && data.success) {
+            showToast('Supabase Cloud Database successfully connected!', 'success');
+            if (supabaseConfigModal) supabaseConfigModal.classList.add('hidden');
+            await checkDatabaseStatus();
+            // Refresh live datasets from Supabase
+            loadStudentsDirectory();
+            if (typeof loadLedgerRecords === 'function') loadLedgerRecords();
+          } else {
+            showToast(data.message || 'Failed to save Supabase configuration.', 'error');
+          }
+        } catch (err) {
+          showToast('Network error saving Supabase config: ' + err.message, 'error');
+        } finally {
+          if (btnSave) btnSave.disabled = false;
+        }
+      });
+    }
+  }
+
   function initAdminPortal() {
     if (!btnOpenAdminPortal) return;
 
@@ -1626,6 +1825,9 @@
 
     // Subject Code Change Portal Events (Admin-Only)
     initSubjectsPortal();
+
+    // Supabase Cloud Modal & Connectivity
+    initSupabaseCloud();
   }
 
   async function handleAdminLoginSubmit(e) {
@@ -2669,6 +2871,9 @@
           <button type="button" class="btn-table-action btn-marks-for-student" data-reg="${s.register_number}" style="font-size: 0.76rem; padding: 0.25rem 0.55rem; background: var(--academic-accent-light); color: var(--academic-accent);">
             Enter Marks
           </button>
+          <button type="button" class="btn-table-action btn-delete-student" data-reg="${s.register_number}" style="font-size: 0.76rem; padding: 0.25rem 0.55rem; background: #fee2e2; color: #dc2626; border-color: #fca5a5; margin-left: 0.25rem;">
+            Delete
+          </button>
         </td>
       </tr>
     `).join('');
@@ -2696,9 +2901,56 @@
         if (manualSubCode) manualSubCode.focus();
       });
     });
+
+    recentPersonalTbody.querySelectorAll('.btn-delete-student').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const reg = btn.getAttribute('data-reg');
+        if (!confirm(`Are you sure you want to permanently delete student ${reg}? This will delete their personal record and marks from both cloud and local databases.`)) {
+          return;
+        }
+        await handleDeleteStudent(reg);
+      });
+    });
   }
 
   // ==============================================================================
+  
+  async function handleDeleteStudent(reg) {
+    if (!reg) return;
+    try {
+      const resp = await apiFetch(`/api/students/${encodeURIComponent(reg)}`, {
+        method: 'DELETE'
+      });
+      const data = resp ? await resp.json().catch(() => null) : null;
+      if (resp && resp.ok && data && data.success) {
+        showToast(`Student ${reg} permanently deleted.`, 'success');
+      } else {
+        const msg = (data && (data.message || data.error)) || `Student ${reg} removed.`;
+        showToast(msg, 'info');
+      }
+    } catch (err) {
+      console.warn('Network error deleting student on server:', err);
+      showToast(`Student ${reg} removed from local storage.`, 'info');
+    }
+
+    // Always clean up local storage registry
+    try {
+      const regUpper = reg.trim().toUpperCase();
+      let registry = getSavedStudentsRegistry();
+      registry = registry.filter(s => (s.register_number || s.registerNumber || '').toUpperCase() !== regUpper);
+      saveStudentsRegistry(registry);
+
+      if (window.CollegeAuth && CollegeAuth.MOCK_STUDENTS_DATABASE) {
+        delete CollegeAuth.MOCK_STUDENTS_DATABASE[regUpper];
+      }
+    } catch (e) {
+      console.error('Local cleanup error:', e);
+    }
+
+    // Refresh UI
+    loadStudentsDirectory();
+  }
+
   // 9. PHASE 2: MARKS REGISTRY LEDGER TABLE & SEARCH
   // ==============================================================================
   function initLedger() {
@@ -3558,6 +3810,7 @@
     initMarksPageEvents();
     initModals();
     initAdminPortal();
+    checkDatabaseStatus();
   }
 
   if (document.readyState === 'loading') {
