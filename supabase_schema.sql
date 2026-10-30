@@ -121,3 +121,4 @@ VALUES
 ('CS301', 'Data Structures & OOP with Java', 4, 'Semester III', 'CS', 25, 75),
 ('CS302', 'Database Systems', 4, 'Semester III', 'CS', 25, 75)
 ON CONFLICT (code) DO NOTHING;
+

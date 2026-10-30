@@ -401,3 +401,4 @@ class SupabaseClient:
 
 # Global Singleton
 supabase_client = SupabaseClient()
+
