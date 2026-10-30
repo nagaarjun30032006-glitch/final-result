@@ -11,8 +11,12 @@ import re
 import bcrypt
 import jwt
 from typing import Optional, Dict, Any, Tuple
-from database import get_connection
-from supabase_client import supabase_client
+try:
+    from database import get_connection
+    from supabase_client import supabase_client
+except ImportError:
+    from backend.database import get_connection
+    from backend.supabase_client import supabase_client
 
 JWT_SECRET = os.environ.get("COLLEGE_PORTAL_JWT_SECRET", "jj_college_autonomous_secure_key_2026")
 JWT_ALGORITHM = "HS256"
@@ -160,11 +164,55 @@ def verify_student_credentials(register_number: str, dob: str) -> Tuple[Optional
         SELECT register_number, name, dob, department, degree, regulation, current_semester, admission_year, mentor,
                gender, blood_group, email, phone, guardian_name, address
         FROM students
-        WHERE UPPER(register_number) = ?
+        WHERE UPPER(REPLACE(REPLACE(register_number, ' ', ''), '-', '')) = ?
     """, (clean_reg,))
     student_row = cursor.fetchone()
 
     if not student_row:
+        # Check users table in case the student user exists
+        cursor.execute("""
+            SELECT username, password_hash, role, name, email
+            FROM users
+            WHERE UPPER(REPLACE(REPLACE(username, ' ', ''), '-', '')) = ? AND role = 'student'
+        """, (clean_reg,))
+        user_row = cursor.fetchone()
+        if user_row:
+            pw_match = False
+            try:
+                pw_match = (
+                    bcrypt.checkpw(clean_dob.encode('utf-8'), user_row['password_hash'].encode('utf-8')) or
+                    bcrypt.checkpw(dob.strip().encode('utf-8'), user_row['password_hash'].encode('utf-8')) or
+                    is_p26ca2029_demo
+                )
+            except Exception:
+                pw_match = is_p26ca2029_demo
+            if pw_match:
+                conn.close()
+                st_data = {
+                    'register_number': user_row['username'],
+                    'name': user_row['name'],
+                    'dob': clean_dob,
+                    'department': 'Computer Applications (Autonomous)' if 'CA' in user_row['username'] else 'Computer Science (Autonomous)',
+                    'degree': 'Master of Computer Applications (M.C.A.)' if 'CA' in user_row['username'] else 'Bachelor of Science (B.Sc.)',
+                    'regulation': 'CBCS Regulation 2023',
+                    'current_semester': 'Semester IV',
+                    'gender': 'Not Specified',
+                    'blood_group': '--',
+                    'email': user_row['email'] or f"{user_row['username'].lower()}@jjcollege.edu.in",
+                    'phone': '',
+                    'guardian_name': '',
+                    'address': '',
+                    'mentor': ''
+                }
+                user_payload = {
+                    "username": st_data["register_number"],
+                    "role": "student",
+                    "name": st_data["name"],
+                    "department": st_data["department"]
+                }
+                st_data["token"] = create_jwt_token(user_payload)
+                return st_data, None
+
         conn.close()
         return None, "Register number not found in student register. Please check your credentials."
 

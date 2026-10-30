@@ -21,7 +21,7 @@
 
 // Configuration for College Register Number Format
 // Format: Optional program prefix (e.g. P/U) + 2-digit batch year + 2-4 letter department code + 3-5 digit roll sequence (e.g., P26CA2029, 23CS001)
-const REGISTER_NUMBER_REGEX = /^[A-Z]{0,2}[0-9]{2}[A-Z]{2,4}[0-9]{3,5}$/i;
+const REGISTER_NUMBER_REGEX = /^[A-Za-z0-9\-_ ]{3,30}$/;
 
 /**
  * Standard examination semester datasets for academic evaluation.
@@ -263,16 +263,23 @@ function validateRegisterNumber(regNo) {
     return { isValid: false, error: 'Register number is required.' };
   }
 
-  const trimmed = regNo.trim().toUpperCase();
+  const trimmed = regNo.trim().toUpperCase().replace(/[\s\-]/g, '');
 
   if (trimmed.length === 0) {
     return { isValid: false, error: 'Register number is required.' };
   }
 
+  if (trimmed.length < 3) {
+    return {
+      isValid: false,
+      error: 'Register number must be at least 3 characters (e.g. P26CA2029 or 23CS001).'
+    };
+  }
+
   if (!REGISTER_NUMBER_REGEX.test(trimmed)) {
     return {
       isValid: false,
-      error: 'Invalid format. Use college format like P26CA2029 (e.g. P + Year + Dept + Roll).'
+      error: 'Invalid characters in register number.'
     };
   }
 
@@ -302,33 +309,69 @@ function getMarksForSemester(semester, examType) {
  * Mock Student Authentication Function
  */
 async function mockStudentLogin(credentials) {
-  // Simulate network latency between 800ms and 1200ms
-  const delayMs = Math.floor(Math.random() * 400) + 800;
-  await new Promise((resolve) => setTimeout(resolve, delayMs));
+  // Fast simulated response
+  await new Promise((resolve) => setTimeout(resolve, 200));
 
   if (!credentials || typeof credentials !== 'object') {
     return {
       success: false,
-      error: 'Unable to verify your details. Please check your register number and date of birth.'
+      error: 'Register number and date of birth are required.'
     };
   }
 
-  const regValidation = validateRegisterNumber(credentials.registerNumber);
-  const dobValidation = validateDateOfBirth(credentials.dob);
+  const rawReg = (credentials.registerNumber || credentials.register_number || '').toString().trim().toUpperCase().replace(/[\s\-]/g, '');
+  const rawDob = (credentials.dob || '').toString().trim();
 
-  if (!regValidation.isValid || !dobValidation.isValid) {
-    return {
-      success: false,
-      error: 'Unable to verify your details. Please check your register number and date of birth.'
-    };
+  if (!rawReg) {
+    return { success: false, error: 'Register number is required.' };
+  }
+  if (!rawDob) {
+    return { success: false, error: 'Date of birth is required.' };
   }
 
-  const cleanRegNo = regValidation.normalized;
-  const cleanDob = dobValidation.normalized;
+  const cleanRegNo = rawReg;
+  const cleanDob = typeof normalizeDobString === 'function' ? normalizeDobString(rawDob) : rawDob.replace(/[\s\-.]/g, '/');
 
-  // 1. Verify register number against student register
-  const matchedStudent = MOCK_STUDENTS_DATABASE.find((s) => {
-    return s.registerNumber.toUpperCase() === cleanRegNo;
+  // 1. Gather all student candidates: MOCK_STUDENTS_DATABASE + local storage registry
+  let allStudents = [...MOCK_STUDENTS_DATABASE];
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem('jjc_students_registry');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(p => {
+            const reg = (p.register_number || p.registerNumber || '').toUpperCase().replace(/[\s\-]/g, '');
+            if (reg && !allStudents.some(x => (x.registerNumber || '').toUpperCase().replace(/[\s\-]/g, '') === reg)) {
+              allStudents.push({
+                registerNumber: p.register_number || p.registerNumber,
+                dob: p.dob,
+                name: p.name,
+                gender: p.gender || 'Not Specified',
+                bloodGroup: p.blood_group || p.bloodGroup || '--',
+                degree: p.degree || 'Bachelor of Science (B.Sc.)',
+                department: p.department || 'Computer Science (Autonomous)',
+                departmentCode: reg.includes('CA') ? 'CA' : 'CS',
+                semester: p.current_semester || p.semester || 'Semester IV',
+                academicYear: '2025 - 2026',
+                admissionYear: p.admission_year || 2023,
+                regulation: p.regulation || 'CBCS Regulation 2023',
+                mentor: p.mentor || '',
+                email: p.email || '',
+                phone: p.phone || '',
+                guardianName: p.guardian_name || p.guardianName || '',
+                address: p.address || ''
+              });
+            }
+          });
+        }
+      }
+    }
+  } catch (e) {}
+
+  // Find student by register number
+  const matchedStudent = allStudents.find((s) => {
+    return (s.registerNumber || '').toUpperCase().replace(/[\s\-]/g, '') === cleanRegNo;
   });
 
   if (!matchedStudent) {

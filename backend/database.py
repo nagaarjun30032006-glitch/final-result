@@ -143,7 +143,7 @@ def _seed_initial_data(conn):
 
     # Seed Sample Students with Complete Personal Details
     sample_students = [
-        ('P26CA2029', 'Ananya Raman', '15/08/2005', 'Computer Applications (Autonomous)', 'Master of Computer Applications (M.C.A.)', 'CBCS Regulation 2023', 'Semester IV', 2026, 'Dr. K. Swaminathan, M.Sc., Ph.D.', 'Female', 'O+', 'p26ca2029@jjcollege.edu.in', '+91 98765 43210', 'S. Raman', '12 Anna Nagar, Pudukkottai - 622001'),
+        ('P26CA2029', 'SARAVANAN R', '30/03/2006', 'Computer Applications (Autonomous)', 'Master of Computer Applications (M.C.A.)', 'CBCS Regulation 2023', 'Semester IV', 2026, 'Dr. K. Swaminathan, M.Sc., Ph.D.', 'Female', 'O+', 'p26ca2029@jjcollege.edu.in', '+91 98765 43210', 'S. Raman', '12 Anna Nagar, Pudukkottai - 622001'),
         ('23CS001', 'Ananya Raman', '15/08/2005', 'Computer Science (Autonomous)', 'Bachelor of Science (B.Sc.)', 'CBCS Regulation 2023', 'Semester IV', 2023, 'Dr. K. Swaminathan, M.Sc., Ph.D.', 'Female', 'O+', '23cs001@jjcollege.edu.in', '+91 98765 43211', 'S. Raman', '12 Anna Nagar, Pudukkottai - 622001'),
         ('23CS042', 'Karthik Raja', '04/11/2004', 'Computer Science (Autonomous)', 'Bachelor of Science (B.Sc.)', 'CBCS Regulation 2023', 'Semester IV', 2023, 'Prof. R. Revathi, M.C.A.', 'Male', 'B+', '23cs042@jjcollege.edu.in', '+91 98401 23456', 'M. Raja', '45 North Street, Trichy - 620002'),
         ('22EC108', 'Meera Krishnan', '22/01/2004', 'Electronics & Communication Engineering', 'Bachelor of Engineering (B.E.)', 'CBCS Regulation 2022', 'Semester VI', 2022, 'Dr. S. Balasubramanian, Ph.D.', 'Female', 'A+', '22ec108@jjcollege.edu.in', '+91 94432 10987', 'K. Krishnan', '88 Main Road, Thanjavur - 613001')
