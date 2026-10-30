@@ -22,6 +22,18 @@ from api_handler import APIHandler
 
 DEFAULT_PORT = 5173
 
+import socket
+
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return '127.0.0.1'
+
 class ThreadingServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
     allow_reuse_address = True
@@ -120,7 +132,10 @@ if __name__ == "__main__":
             with ThreadingServer((host, p), PortalHandler) as httpd:
                 print("================================================================")
                 print(f"  [ONLINE] J.J. College Full-Stack Portal Running Successfully")
-                print(f"  🔗  URL: http://localhost:{p}/")
+                local_ip = get_local_ip()
+                print(f"  🔗  Local PC URL:   http://localhost:{p}/")
+                if local_ip and local_ip != '127.0.0.1':
+                    print(f"  📱  Mobile Phone URL: http://{local_ip}:{p}/")
                 print(f"  📁  Static Files: {BASE_DIR}")
                 print(f"  🗄️   Database: {os.path.join(BACKEND_DIR, 'college_portal.db')}")
                 print(f"  🔐  Admin Login: admin / admin@123")

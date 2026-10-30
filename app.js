@@ -194,14 +194,22 @@
   })();
 
   async function apiFetch(endpoint, options = {}) {
+    const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+    const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
     const candidates = [];
     if (detectedApiBase) {
       candidates.push(`${detectedApiBase}${endpoint}`);
     }
+    // Relative URL works for same-origin, LAN access (e.g. 192.168.x.x), and Vercel HTTPS
     candidates.push(endpoint);
-    candidates.push(`http://localhost:5173${endpoint}`);
-    candidates.push(`http://127.0.0.1:5173${endpoint}`);
-    candidates.push(`http://localhost:3000${endpoint}`);
+
+    // Only test localhost fallback if running on PC localhost and NOT https
+    if (!isHttps && isLocalhost) {
+      candidates.push(`http://localhost:5173${endpoint}`);
+      candidates.push(`http://127.0.0.1:5173${endpoint}`);
+      candidates.push(`http://localhost:3000${endpoint}`);
+    }
 
     const uniqueCandidates = [...new Set(candidates)];
     let lastError = null;
@@ -566,31 +574,51 @@
   function initInputs() {
     if (!inputRegNo || !inputDob) return;
 
-    // Register Number: auto-uppercase and clear button toggle
+    // Quick demo student account buttons (One-touch fill on mobile)
+    document.querySelectorAll('.btn-quick-student').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const reg = btn.getAttribute('data-reg');
+        const dob = btn.getAttribute('data-dob');
+        if (inputRegNo && reg) {
+          inputRegNo.value = reg;
+          if (btnClearRegNo) btnClearRegNo.classList.remove('hidden');
+        }
+        if (inputDob && dob) {
+          inputDob.value = dob;
+        }
+        clearInlineRegError();
+        clearInlineDobError();
+        hideGenericError();
+      });
+    });
+
+    // Register Number: clear button toggle & auto-clean on blur
     inputRegNo.addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase();
       if (e.target.value.length > 0) {
-        btnClearRegNo.classList.remove('hidden');
+        if (btnClearRegNo) btnClearRegNo.classList.remove('hidden');
       } else {
-        btnClearRegNo.classList.add('hidden');
+        if (btnClearRegNo) btnClearRegNo.classList.add('hidden');
       }
       clearInlineRegError();
       hideGenericError();
     });
 
-    btnClearRegNo.addEventListener('click', () => {
-      inputRegNo.value = '';
-      btnClearRegNo.classList.add('hidden');
-      clearInlineRegError();
-      hideGenericError();
-      inputRegNo.focus();
-    });
+    if (btnClearRegNo) {
+      btnClearRegNo.addEventListener('click', () => {
+        inputRegNo.value = '';
+        btnClearRegNo.classList.add('hidden');
+        clearInlineRegError();
+        hideGenericError();
+        inputRegNo.focus();
+      });
+    }
 
     inputRegNo.addEventListener('blur', () => {
-      const val = inputRegNo.value.trim();
+      const val = inputRegNo.value.trim().toUpperCase().replace(/\s+/g, '');
+      inputRegNo.value = val;
       if (!val) {
         showRegError('Register number is required.');
-      } else if (validateRegisterNumber) {
+      } else if (typeof validateRegisterNumber === 'function') {
         const res = validateRegisterNumber(val);
         if (!res.isValid) {
           showRegError(res.error);
@@ -600,31 +628,49 @@
       }
     });
 
-    // Date of Birth: smart masked input (inserts `/` automatically)
+    // Date of Birth: flexible input handling (prevents virtual keyboard backspace trap on mobile)
     inputDob.addEventListener('input', (e) => {
-      let val = e.target.value.replace(/[^\d]/g, '');
-      let formatted = '';
-
-      if (val.length > 0) {
-        formatted += val.substring(0, 2);
-      }
-      if (val.length >= 3) {
-        formatted += '/' + val.substring(2, 4);
-      }
-      if (val.length >= 5) {
-        formatted += '/' + val.substring(4, 8);
+      // Never trap cursor on backspace or delete key on mobile
+      if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+        clearInlineDobError();
+        hideGenericError();
+        return;
       }
 
-      e.target.value = formatted;
+      const raw = e.target.value;
+      const digits = raw.replace(/[^\d]/g, '');
+
+      // Only auto-insert slashes if user is typing pure digits without separators
+      if (digits.length <= 8 && !raw.includes('-') && !raw.includes('.')) {
+        let formatted = '';
+        if (digits.length > 0) formatted += digits.substring(0, 2);
+        if (digits.length >= 3) formatted += '/' + digits.substring(2, 4);
+        if (digits.length >= 5) formatted += '/' + digits.substring(4, 8);
+        if (formatted && formatted !== raw && raw.length <= formatted.length) {
+          e.target.value = formatted;
+        }
+      }
+
       clearInlineDobError();
       hideGenericError();
     });
 
     inputDob.addEventListener('blur', () => {
-      const val = inputDob.value.trim();
+      let val = inputDob.value.trim();
+      if (val) {
+        // Auto-normalize any mobile formats (e.g. YYYY-MM-DD or DD-MM-YYYY)
+        if (typeof normalizeDobString === 'function') {
+          val = normalizeDobString(val);
+          inputDob.value = val;
+        } else if (window.CollegeAuth && typeof CollegeAuth.normalizeDobString === 'function') {
+          val = CollegeAuth.normalizeDobString(val);
+          inputDob.value = val;
+        }
+      }
+
       if (!val) {
         showDobError('Date of birth is required.');
-      } else if (validateDateOfBirth) {
+      } else if (typeof validateDateOfBirth === 'function') {
         const res = validateDateOfBirth(val);
         if (!res.isValid) {
           showDobError(res.error);
@@ -864,8 +910,15 @@
     e.preventDefault();
     hideGenericError();
 
-    const rawRegNo = inputRegNo.value.trim();
-    const rawDob = inputDob.value.trim();
+    const rawRegNo = inputRegNo.value.trim().toUpperCase().replace(/\s+/g, '');
+    let rawDob = inputDob.value.trim();
+    if (typeof normalizeDobString === 'function') {
+      rawDob = normalizeDobString(rawDob);
+      inputDob.value = rawDob;
+    } else if (window.CollegeAuth && typeof CollegeAuth.normalizeDobString === 'function') {
+      rawDob = CollegeAuth.normalizeDobString(rawDob);
+      inputDob.value = rawDob;
+    }
 
     let hasError = false;
 

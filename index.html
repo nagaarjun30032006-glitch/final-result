@@ -138,12 +138,15 @@
                   id="student-regno"
                   name="registerNumber"
                   type="text"
-                  autoComplete="off"
+                  autoComplete="username"
+                  autoCapitalize="characters"
+                  autoCorrect="off"
                   spellCheck="false"
                   class="form-input"
                   placeholder="Enter your register number (e.g. P26CA2029)"
                   value="P26CA2029"
                   aria-required="true"
+                  style="text-transform: uppercase;"
                 />
 
                 <button
@@ -193,10 +196,13 @@
                   name="dateOfBirth"
                   type="text"
                   inputMode="numeric"
+                  autoComplete="bday"
+                  autoCorrect="off"
+                  spellCheck="false"
                   maxLength="10"
                   class="form-input"
                   placeholder="DD / MM / YYYY"
-                  value="15/08/2005"
+                  value="30/03/2006"
                   aria-required="true"
                 />
 
@@ -254,6 +260,24 @@
                   <line x1="12" y1="16" x2="12.01" y2="16"></line>
                 </svg>
                 <span id="dob-error-text"></span>
+              </div>
+            </div>
+
+            <!-- Quick Demo Student Accounts (Instant One-Tap Fill) -->
+            <div style="margin-top: -0.25rem; margin-bottom: 0.65rem;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+                Quick Test Accounts (Tap to Fill):
+              </span>
+              <div style="display: flex; gap: 0.45rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                <button type="button" class="btn-quick-student btn-table-action" data-reg="P26CA2029" data-dob="30/03/2006" style="font-size: 0.73rem; padding: 0.35rem 0.65rem; background: var(--bg-secondary);">
+                  <strong>P26CA2029</strong> (30/03/2006)
+                </button>
+                <button type="button" class="btn-quick-student btn-table-action" data-reg="23CS001" data-dob="15/08/2005" style="font-size: 0.73rem; padding: 0.35rem 0.65rem; background: var(--bg-secondary);">
+                  <strong>23CS001</strong> (15/08/2005)
+                </button>
+                <button type="button" class="btn-quick-student btn-table-action" data-reg="23CS042" data-dob="04/11/2004" style="font-size: 0.73rem; padding: 0.35rem 0.65rem; background: var(--bg-secondary);">
+                  <strong>23CS042</strong> (04/11/2004)
+                </button>
               </div>
             </div>
 

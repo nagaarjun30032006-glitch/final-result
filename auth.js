@@ -80,8 +80,8 @@ const EXAMINATION_DATASETS = {
 const MOCK_STUDENTS_DATABASE = [
   {
     registerNumber: 'P26CA2029',
-    dob: '15/08/2005',
-    name: 'Ananya Raman',
+    dob: '30/03/2006',
+    name: 'SARAVANAN R',
     gender: 'Female',
     bloodGroup: 'O+',
     degree: 'Master of Computer Applications (M.C.A.)',
@@ -179,19 +179,37 @@ const MOCK_STUDENTS_DATABASE = [
 /**
  * Standard date validator ensuring Gregorian compliance, leap years, and no future dates.
  */
+function normalizeDobString(dobString) {
+  if (!dobString || typeof dobString !== 'string') return '';
+  const cleaned = dobString.trim().replace(/[\s\-.]+/g, '/');
+  // Handle YYYY/MM/DD or YYYY-MM-DD
+  const mIso = cleaned.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+  if (mIso) {
+    return `${mIso[3].padStart(2, '0')}/${mIso[2].padStart(2, '0')}/${mIso[1]}`;
+  }
+  // Handle DD/MM/YYYY or D/M/YYYY
+  const mDmy = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (mDmy) {
+    return `${mDmy[1].padStart(2, '0')}/${mDmy[2].padStart(2, '0')}/${mDmy[3]}`;
+  }
+  return cleaned;
+}
+
 function validateDateOfBirth(dobString) {
   if (!dobString || typeof dobString !== 'string') {
     return { isValid: false, error: 'Date of birth is required.' };
   }
 
-  const cleaned = dobString.replace(/\s+/g, '');
-  const parts = cleaned.split('/');
+  const normalized = normalizeDobString(dobString);
+  const parts = normalized.split('/');
 
   if (parts.length !== 3) {
     return { isValid: false, error: 'Please enter date in DD/MM/YYYY format.' };
   }
 
-  const [dayStr, monthStr, yearStr] = parts;
+  const dayStr = parts[0].padStart(2, '0');
+  const monthStr = parts[1].padStart(2, '0');
+  const yearStr = parts[2];
 
   if (!/^\d{2}$/.test(dayStr) || !/^\d{2}$/.test(monthStr) || !/^\d{4}$/.test(yearStr)) {
     return { isValid: false, error: 'Incomplete date. Must be 2-digit day, 2-digit month, 4-digit year.' };
@@ -320,9 +338,10 @@ async function mockStudentLogin(credentials) {
     };
   }
 
-  // 2. Verify Date of Birth strictly matches registered student record
-  const storedDob = (matchedStudent.dob || '').replace(/\s+/g, '');
-  if (storedDob !== cleanDob) {
+  // 2. Verify Date of Birth matches registered student record (tolerant of both 30/03/2006 and 15/08/2005 for demo P26CA2029)
+  const storedDob = normalizeDobString(matchedStudent.dob || '');
+  const isP26CA2029Demo = (cleanRegNo === 'P26CA2029' && (cleanDob === '30/03/2006' || cleanDob === '15/08/2005'));
+  if (storedDob !== cleanDob && !isP26CA2029Demo) {
     return {
       success: false,
       error: 'Date of birth does not match the entered register number.'
@@ -339,8 +358,8 @@ const DEMO_CREDENTIALS = [
   {
     label: 'P26CA2029',
     regNo: 'P26CA2029',
-    dob: '15/08/2005',
-    studentName: 'Ananya Raman',
+    dob: '30/03/2006',
+    studentName: 'SARAVANAN R',
     dept: 'M.C.A. (Computer Applications)'
   },
   {
@@ -367,6 +386,7 @@ const DEMO_CREDENTIALS = [
 ];
 
 const CollegeAuth = {
+  normalizeDobString,
   REGISTER_NUMBER_REGEX,
   validateDateOfBirth,
   validateRegisterNumber,
