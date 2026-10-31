@@ -264,11 +264,11 @@
             </div>
 
             <!-- Quick Demo Student Accounts (Instant One-Tap Fill) -->
-            <div style="margin-top: -0.25rem; margin-bottom: 0.65rem;">
+            <div class="demo-quick-pick-container" style="margin-top: -0.25rem; margin-bottom: 0.65rem;">
               <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
                 Quick Test Accounts (Tap to Fill):
               </span>
-              <div style="display: flex; gap: 0.45rem; margin-top: 0.35rem; flex-wrap: wrap;">
+              <div class="demo-quick-pick-group" style="display: flex; gap: 0.45rem; margin-top: 0.35rem; flex-wrap: wrap;">
                 <button type="button" class="btn-quick-student btn-table-action" data-reg="P26CA2029" data-dob="30/03/2006" style="font-size: 0.73rem; padding: 0.35rem 0.65rem; background: var(--bg-secondary);">
                   <strong>P26CA2029</strong> (30/03/2006)
                 </button>
@@ -972,9 +972,9 @@
                     </p>
                   </div>
                   <!-- Quick search toolbar -->
-                  <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-                    <div style="position: relative; display: flex; align-items: center;">
-                      <input type="text" id="personal-search-regno" placeholder="Search Reg No (e.g. P26CA2029)" style="font-size: 0.82rem; padding: 0.45rem 0.75rem; border: 1px solid var(--academic-border); border-radius: 4px; text-transform: uppercase; width: 220px;" autocomplete="off">
+                  <div class="personal-search-toolbar" style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                    <div class="personal-search-input-wrap" style="position: relative; display: flex; align-items: center;">
+                      <input type="text" id="personal-search-regno" class="personal-search-input" placeholder="Search Reg No (e.g. P26CA2029)" style="font-size: 0.82rem; padding: 0.45rem 0.75rem; border: 1px solid var(--academic-border); border-radius: 4px; text-transform: uppercase;" autocomplete="off">
                     </div>
                     <button type="button" id="btn-personal-lookup" class="btn-academic-solid" style="font-size: 0.82rem; padding: 0.45rem 0.85rem; height: auto;">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style="vertical-align: -1px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
